@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "SapplingApp",
+    "slug": "SapplingApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/app/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/images/app/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/app/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/images/app/favicon.png"
+    }
+  }
+}
