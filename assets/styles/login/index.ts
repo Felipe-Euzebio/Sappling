@@ -32,5 +32,10 @@ export const styles = StyleSheet.create({
     },
     handleAuthTypeText: {
         textAlign: 'center',
-    }
+    },
+    logo: {
+        width: 200,
+        height: 200,
+        alignSelf: 'center',
+    },
 });

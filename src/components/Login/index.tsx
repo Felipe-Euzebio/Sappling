@@ -5,7 +5,8 @@ import {
     TextInput, 
     SafeAreaView,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Image
 } from "react-native";
 import { styles } from "../../../assets/styles/login";
 
@@ -21,8 +22,19 @@ const Login = () => {
         setType(type => type === 'login' ? 'register' : 'login'); 
     };
 
+    const handleRequiredFields = () => {
+        let isEmpty = email.trim().length === 0 || password.trim().length === 0;
+        return isEmpty; 
+    };
+
     return (
         <SafeAreaView style={styles.container}>
+
+            <Image
+                source={require('../../../assets/images/logo.png')}  
+                style={styles.logo}
+                alt="Logo"
+            />
 
             <TextInput
                 onChangeText={(text) => setEmail(text)}
@@ -36,15 +48,16 @@ const Login = () => {
                 onChangeText={(text) => setPassword(text)}
                 value={password}
                 secureTextEntry={true}
-                placeholder="Password"
+                placeholder="Senha"
                 underlineColorAndroid={'transparent'}
                 style={styles.input}
             />
 
             <TouchableOpacity 
                 onPress={() => Auth.loginOrRegister(email, password, type)}
+                disabled={handleRequiredFields()}
                 style={[styles.handleLoginBtn, { 
-                    backgroundColor: type === 'login' ? '#3EA6F2' : '#141414'
+                    backgroundColor: type === 'login' ? '#228B22' : '#141414'
                 }]}
             >
                 <Text style={styles.handleLoginText}>

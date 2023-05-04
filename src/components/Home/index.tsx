@@ -14,7 +14,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import { Auth } from '../../api/firebase/auth';
 
-const Home = ({ route }: any) => {
+const Home = ({ route, navigation }: any) => {
 
   const { userEmail } = route.params;
 

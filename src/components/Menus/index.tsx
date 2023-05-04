@@ -4,7 +4,15 @@ import { ScrollView } from 'react-native-gesture-handler'
 
 import { styles } from '../../../assets/styles/menus'
 
+import { useNavigation } from '@react-navigation/native';
+
 const Menus = () => {
+
+    const navigation = useNavigation<any>();
+
+    const navigateTo = (route: string) => {
+        navigation.navigate(route);
+    }
 
     return (
         <ScrollView
@@ -14,7 +22,7 @@ const Menus = () => {
         >
             <View style={styles.btnArea}>
 
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => navigateTo('Produtores')}>
                     <Image
                         source={require('../../../assets/images/menus/produtores.png')}
                         style={styles.icon}
@@ -26,7 +34,7 @@ const Menus = () => {
             </View>
             <View style={styles.btnArea}>
 
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => navigateTo('Produtos')}>
                     <Image
                         source={require('../../../assets/images/menus/produtos.png')}
                         style={styles.icon}
@@ -38,7 +46,7 @@ const Menus = () => {
             </View>
             <View style={styles.btnArea}>
 
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => navigateTo('ProducaoAnual')}>
                     <Image
                         source={require('../../../assets/images/menus/producao.png')}
                         style={styles.icon}
