@@ -41,6 +41,7 @@ const Login = () => {
                 value={email}
                 placeholder="Email"
                 underlineColorAndroid={'transparent'}
+                autoComplete={'email'}
                 style={styles.input}
             />
 

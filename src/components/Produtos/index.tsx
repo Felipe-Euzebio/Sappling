@@ -1,7 +1,8 @@
 import { View, Text, FlatList, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { styles } from '../../../assets/styles/produtos';
 import { Feather } from '@expo/vector-icons';
+import { CustomModal } from './CustomModal';
 
 const data = [
   { key: '1', name: 'Item 1' },
@@ -12,6 +13,13 @@ const data = [
 ];
 
 const Produtos = () => {
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = (value: boolean) => {
+    setIsModalVisible(value);
+  };
+  
   const renderItem = ({ item }: any) => (
     <View style={{ padding: 16 }}>
       <Text>{item.name}</Text>
@@ -21,7 +29,12 @@ const Produtos = () => {
   return (
     <View style={styles.container}>
 
-      <TouchableOpacity style={styles.createBtn}>
+      <CustomModal 
+        isVisible={isModalVisible} 
+        toggleModal={toggleModal} 
+      />
+
+      <TouchableOpacity style={styles.createBtn} onPress={() => toggleModal(true)}>
         <Feather name="plus" size={24} color="#FFF" />
         <Text style={styles.createBtnText}>Incluir</Text>
       </TouchableOpacity>
@@ -34,6 +47,7 @@ const Produtos = () => {
 
     </View>
   );
+
 }
 
 export default Produtos

@@ -19,6 +19,7 @@ const SapplingApp = ({ user }: any) => {
             presentation: 'modal',
           }}
         >
+          <Stack.Group>
             <Stack.Screen 
                 name="Home" 
                 component={Home}
@@ -45,6 +46,7 @@ const SapplingApp = ({ user }: any) => {
                   title: 'Produção Anual',
                 }}
             />
+          </Stack.Group>
         </Stack.Navigator>
     </NavigationContainer>
   );
