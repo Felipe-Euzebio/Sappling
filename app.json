@@ -25,6 +25,8 @@
     },
     "web": {
       "favicon": "./assets/images/app/favicon.png"
-    }
-  }
+    },
+    "sdkVersion": "48.0.0"
+  },
+  "name": "sapplingapp"
 }
