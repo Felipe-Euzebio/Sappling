@@ -6,10 +6,25 @@ import { modalStyles } from '../../../assets/styles/modal';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
+import { FirestoreFunctions as fsf } from '../../api/firebase/firestoreDb'; 
+
 const CustomModal = ({ isVisible, toggleModal, modalData }: any) => {
+
+  const [descricao, setDescricao] = useState<string>('');
+  const [observacao, setObservacao] = useState<string>('');
 
   const closeModal = () => {
     toggleModal(false);
+  };
+
+  type Produto = {
+    descricao: string,
+    observacao?: string,
+  }
+
+  const data: Produto = {
+    descricao: descricao,
+    observacao: observacao,
   };
 
   return (
@@ -29,12 +44,16 @@ const CustomModal = ({ isVisible, toggleModal, modalData }: any) => {
 
         <Text style={modalStyles.inputLabel}>Descrição:</Text>
         <TextInput
+            value={descricao}
+            onChangeText={(value) => setDescricao(value)}
             underlineColorAndroid={'transparent'}
             style={modalStyles.input}
         />
 
         <Text style={modalStyles.inputLabel}>Observação:</Text>
         <TextInput
+            value={observacao}
+            onChangeText={(value) => setObservacao(value)}
             editable={true}
             multiline={true}
             numberOfLines={4}
@@ -43,7 +62,10 @@ const CustomModal = ({ isVisible, toggleModal, modalData }: any) => {
             style={modalStyles.textArea}
         />
 
-        <TouchableHighlight style={modalStyles.submitBtn}>
+        <TouchableHighlight
+          onPress={() => fsf.createData('produtos', data)}
+          style={modalStyles.submitBtn}
+        >
           <Text style={modalStyles.submitBtnText}>Salvar</Text>
         </TouchableHighlight>
 

@@ -1,28 +1,52 @@
 import { View, Text, FlatList, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { styles } from '../../../assets/styles/produtos';
 import { Feather } from '@expo/vector-icons';
 import { CustomModal } from './CustomModal';
 
-const data = [
-  { key: '1', name: 'Item 1' },
-  { key: '2', name: 'Item 2' },
-  { key: '3', name: 'Item 3' },
-  { key: '4', name: 'Item 4' },
-  { key: '5', name: 'Item 5' },
-];
+import { FirestoreFunctions as fsf } from '../../api/firebase/firestoreDb'; 
+import ProdutosList from '../Lists/ProdutosList';
+
+import { StyleSheet } from 'react-native';
 
 const Produtos = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [produtos, setProdutos] = useState<any[]>([]);
+
+  useEffect(() => {
+
+    const snapshot = fsf.readAllData('produtos');
+
+    snapshot.then((querySnapshot: any) => {
+
+      setProdutos([]);
+
+      querySnapshot.forEach((doc: any) => {
+
+        let data = {
+          id: doc.id,
+          descricao: doc.descricao,
+        }
+        
+        setProdutos((oldArr) => [...oldArr, data]);
+
+      });
+
+    })
+    .catch((error: any) => {
+      console.log('Error getting documents: ', error);
+    });
+
+  }, []);
 
   const toggleModal = (value: boolean) => {
     setIsModalVisible(value);
   };
   
-  const renderItem = ({ item }: any) => (
+  const renderItem = ({ produtos }: any) => (
     <View style={{ padding: 16 }}>
-      <Text>{item.name}</Text>
+      <Text>{produtos.descricao}</Text>
     </View>
   );
 
@@ -40,9 +64,19 @@ const Produtos = () => {
       </TouchableOpacity>
 
       <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.key}
+        data={produtos}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <ProdutosList data={item} />
+        )}
+        ListHeaderComponent={
+          <View style={styles.listHeader}> 
+            <Text style={styles.listHeaderText}>
+              Produtos
+            </Text>
+          </View>
+        } 
+        style={styles.listContainer}
       />
 
     </View>

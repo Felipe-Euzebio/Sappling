@@ -18,4 +18,20 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 5,
     },
+    listContainer: {
+        backgroundColor: '#A9A9A9',
+        marginTop: 10,
+        borderRadius: 5,
+    },
+    listHeader: {
+        backgroundColor: '#36454F',
+        padding: 10,
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+    },
+    listHeaderText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
 });
