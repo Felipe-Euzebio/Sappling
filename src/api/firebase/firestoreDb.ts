@@ -26,6 +26,14 @@ interface FirestoreFunctions {
     data: Data, 
     callback?: (id: string | null) => void
   ) => Promise<string | null>;
+  
+  createOrUpdateData: (
+    collectionName: string, 
+    id: string | null,
+    data: Data, 
+    callbackCreate?: (id: string | null) => void,
+    callbackUpdate?: (success: boolean) => void
+  ) => void;
 
   readAllData: (
     collectionName: string, 
@@ -52,6 +60,13 @@ interface FirestoreFunctions {
     data: Data, 
     callback?: (success: boolean) => void
   ) => Promise<boolean>;
+
+  updateAndReadData: (
+    collectionName: string,
+    id: string,
+    data: Record<string, any>,
+    callback?: (data: Record<string, any> | null) => void,
+  ) => Promise<Record<string, any> | null>;
   
   deleteData: (
     collectionName: string, 
@@ -79,6 +94,20 @@ export const FirestoreFunctions: FirestoreFunctions = {
       console.log("Error adding document: ", error);
       if (callback) callback(null);
       return null;
+
+    }
+
+  },
+
+  createOrUpdateData: async (collectionName, id, data, callbackCreate, callbackUpdate) => {
+
+    if(!id) {
+
+      FirestoreFunctions.createData(collectionName, data, callbackCreate);
+
+    } else {
+
+      FirestoreFunctions.updateData(collectionName, id, data, callbackUpdate);
 
     }
 
@@ -174,6 +203,37 @@ export const FirestoreFunctions: FirestoreFunctions = {
       console.log("Error updating document: ", error);
       if (callback) callback(false);
       return false;
+
+    }
+
+  },
+
+  updateAndReadData: async (collectionName, id, data, callback) => {
+
+    try {
+      
+      const docRef = doc(db, collectionName, id);
+
+      await updateDoc(docRef, data);
+
+      const docSnapshot = await getDoc(docRef);
+
+      const updatedData = {
+        id: docSnapshot.id,
+        ...docSnapshot.data(),
+      };
+
+      if (callback) callback(updatedData);
+
+      return updatedData;
+
+    } catch (error) {
+
+      console.log('Error updating document:', error);
+
+      if (callback) callback(null);
+
+      return null;
 
     }
 

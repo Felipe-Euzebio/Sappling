@@ -1,16 +1,17 @@
 import { Feather } from '@expo/vector-icons';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
+
 import { styles } from '../../../assets/styles/produtos';
 
-export default function ProdutosList({ data }: any) {
+export default function ProdutosList({ data, editItem }: any) {
     return (
-        <View>
-            <TouchableWithoutFeedback>
-                <Text>
+        <View style={styles.listItemContainer}>
+            <TouchableHighlight style={styles.listItemBtn} onPress={() => editItem(data)}>
+                <Text style={styles.listItemBtnText}>
                     {data.descricao}
                 </Text>
-            </TouchableWithoutFeedback>
+            </TouchableHighlight>
         </View>
     );
 }

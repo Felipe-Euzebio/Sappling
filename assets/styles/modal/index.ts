@@ -30,6 +30,10 @@ export const modalStyles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#141414',
     },
+    inputHidden: {
+        width: 0,
+        height: 0,
+    },
     inputLabel: {
         fontSize: 14,
         fontWeight: 'bold',
@@ -50,6 +54,18 @@ export const modalStyles = StyleSheet.create({
         marginTop: 10,
     },
     submitBtnText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    deleteBtn: {
+        backgroundColor: '#F44336',
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 10,
+    },
+    deleteBtnText: {
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',

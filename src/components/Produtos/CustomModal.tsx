@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Text, TextInput, TouchableOpacity, TouchableHighlight, View } from 'react-native';
 import Modal from 'react-native-modal';
 import { styles } from '../../../assets/styles/home';
@@ -8,21 +8,47 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import { FirestoreFunctions as fsf } from '../../api/firebase/firestoreDb'; 
 
-const CustomModal = ({ isVisible, toggleModal, modalData }: any) => {
+const CustomModal = ({ isVisible, toggleModal, selectedData }: any) => {
 
+  const [id, setId] = useState<string>('');
   const [descricao, setDescricao] = useState<string>('');
   const [observacao, setObservacao] = useState<string>('');
+  const [operationType, setOperationType] = useState<string>(''); // 'create' or 'update'
+
+  useEffect(() => {
+
+    if (selectedData) {
+
+      // console.log(selectedData);
+
+      setId(selectedData.id);
+      setDescricao(selectedData.descricao);
+      setObservacao(selectedData.observacao);
+
+    } else {
+
+      // console.log('selectedData is null');
+
+      setId('');
+      setDescricao('');
+      setObservacao('');
+
+    }
+
+  }, [selectedData]);
 
   const closeModal = () => {
     toggleModal(false);
   };
 
   type Produto = {
+    id?: string | null | undefined, 
     descricao: string,
     observacao?: string,
   }
 
   const data: Produto = {
+    id: id,
     descricao: descricao,
     observacao: observacao,
   };
@@ -41,6 +67,11 @@ const CustomModal = ({ isVisible, toggleModal, modalData }: any) => {
       </View>
 
       <View style={modalStyles.modalBody}>
+
+        <TextInput
+          value={id}
+          style={modalStyles.inputHidden}
+        />
 
         <Text style={modalStyles.inputLabel}>Descrição:</Text>
         <TextInput
@@ -63,11 +94,20 @@ const CustomModal = ({ isVisible, toggleModal, modalData }: any) => {
         />
 
         <TouchableHighlight
-          onPress={() => fsf.createData('produtos', data)}
+          onPress={() => fsf.createOrUpdateData('produtos', data.id!, data)}
           style={modalStyles.submitBtn}
         >
           <Text style={modalStyles.submitBtnText}>Salvar</Text>
         </TouchableHighlight>
+
+        {data.id && (
+          <TouchableHighlight
+            onPress={() => fsf.deleteData('produtos', data.id!)}
+            style={modalStyles.deleteBtn}
+          >
+            <Text style={modalStyles.deleteBtnText}>Excluir</Text>
+          </TouchableHighlight>
+        )}
 
       </View>
       

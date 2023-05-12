@@ -13,31 +13,10 @@ const Produtos = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [produtos, setProdutos] = useState<any[]>([]);
+  const [selectedData, setSelectedData] = useState<any[]>([]);
 
   useEffect(() => {
-
-    const snapshot = fsf.readAllData('produtos');
-
-    snapshot.then((querySnapshot: any) => {
-
-      setProdutos([]);
-
-      querySnapshot.forEach((doc: any) => {
-
-        let data = {
-          id: doc.id,
-          descricao: doc.descricao,
-        }
-        
-        setProdutos((oldArr) => [...oldArr, data]);
-
-      });
-
-    })
-    .catch((error: any) => {
-      console.log('Error getting documents: ', error);
-    });
-
+    handleListItem();
   }, []);
 
   const toggleModal = (value: boolean) => {
@@ -50,15 +29,59 @@ const Produtos = () => {
     </View>
   );
 
+  const handleCreateItem = () => {
+
+    setSelectedData([]);
+    toggleModal(true);
+
+  }
+
+  const handleEditItem = (data: any) => {
+
+    setSelectedData(data);
+    toggleModal(true);
+
+  }
+
+  const handleListItem = () => {
+
+    const snapshot = fsf.readAllData('produtos');
+
+    snapshot.then((querySnapshot: any) => {
+
+      setProdutos([]);
+
+      querySnapshot.forEach((doc: any) => {
+
+        let data = {
+          id: doc.id,
+          descricao: doc.descricao,
+          observacao: doc.observacao
+        }
+
+        setProdutos((oldArr) => [...oldArr, data]);
+
+      });
+
+    })
+    .catch((error: any) => {
+
+      console.log('Error getting documents: ', error);
+
+    });
+
+  }
+
   return (
     <View style={styles.container}>
 
       <CustomModal 
         isVisible={isModalVisible} 
         toggleModal={toggleModal} 
+        selectedData={selectedData}
       />
 
-      <TouchableOpacity style={styles.createBtn} onPress={() => toggleModal(true)}>
+      <TouchableOpacity style={styles.createBtn} onPress={() => handleCreateItem()}>
         <Feather name="plus" size={24} color="#FFF" />
         <Text style={styles.createBtnText}>Incluir</Text>
       </TouchableOpacity>
@@ -67,7 +90,7 @@ const Produtos = () => {
         data={produtos}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <ProdutosList data={item} />
+          <ProdutosList data={item} editItem={handleEditItem}/>
         )}
         ListHeaderComponent={
           <View style={styles.listHeader}> 
@@ -75,7 +98,9 @@ const Produtos = () => {
               Produtos
             </Text>
           </View>
-        } 
+        }
+        showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[0]}
         style={styles.listContainer}
       />
 
