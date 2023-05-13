@@ -1,5 +1,5 @@
 export type Produto = {
-    id?: string | null | undefined,
-    descricao: string,
-    observacao?: string,
-}
+  id?: string | null | undefined;
+  descricao: string;
+  observacao?: string;
+};
