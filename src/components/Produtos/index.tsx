@@ -4,7 +4,7 @@ import { styles } from '../../../assets/styles/produtos';
 import { Feather } from '@expo/vector-icons';
 import { CustomModal } from './CustomModal';
 
-import { FirestoreFunctions as fsf } from '../../api/firebase/firestoreDb'; 
+import { FirestoreFunctions as fsf } from '../../api/firebase/firestoreDb';
 import ProdutosList from '../Lists/ProdutosList';
 
 import { StyleSheet } from 'react-native';
@@ -22,24 +22,50 @@ const Produtos = () => {
   const toggleModal = (value: boolean) => {
     setIsModalVisible(value);
   };
-  
-  const renderItem = ({ produtos }: any) => (
-    <View style={{ padding: 16 }}>
-      <Text>{produtos.descricao}</Text>
-    </View>
-  );
 
-  const handleCreateItem = () => {
+  /**
+   * -----------------------------------
+   * Handles how the modal will behave when either 'creating' or 'updating' a record.
+   * -----------------------------------
+   */
+  const handleCreate = () => {
 
     setSelectedData([]);
     toggleModal(true);
 
   }
-
-  const handleEditItem = (data: any) => {
+  
+  const handleEdit = (data: any) => {
 
     setSelectedData(data);
     toggleModal(true);
+
+  }
+  
+  /**
+   * -----------------------------------
+   * Handles the Create/Read/Update/Delete operations.
+   * -----------------------------------
+   */
+  const handleSaveItem = (data: any) => {
+
+    fsf.createOrUpdateData('produtos', data.id, data).then(() => {
+        
+      handleListItem(); // Refresh the list. Least performatic way.
+      toggleModal(false);
+  
+    })
+
+  }
+
+  const handleDeleteItem = (data: any) => {
+
+    fsf.deleteData('produtos', data.id).then(() => {
+
+      handleListItem(); // Refresh the list. Least performatic way.
+      toggleModal(false);
+
+    });
 
   }
 
@@ -72,16 +98,20 @@ const Produtos = () => {
 
   }
 
+  ///////////////////////////////////////////////////////////////////////////////////////
+
   return (
     <View style={styles.container}>
 
-      <CustomModal 
-        isVisible={isModalVisible} 
-        toggleModal={toggleModal} 
+      <CustomModal
+        isVisible={isModalVisible}
+        toggleModal={toggleModal}
         selectedData={selectedData}
+        saveItem={handleSaveItem}
+        deleteItem={handleDeleteItem}
       />
 
-      <TouchableOpacity style={styles.createBtn} onPress={() => handleCreateItem()}>
+      <TouchableOpacity style={styles.createBtn} onPress={() => handleCreate()}>
         <Feather name="plus" size={24} color="#FFF" />
         <Text style={styles.createBtnText}>Incluir</Text>
       </TouchableOpacity>
@@ -90,10 +120,10 @@ const Produtos = () => {
         data={produtos}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <ProdutosList data={item} editItem={handleEditItem}/>
+          <ProdutosList data={item} editItem={handleEdit} />
         )}
         ListHeaderComponent={
-          <View style={styles.listHeader}> 
+          <View style={styles.listHeader}>
             <Text style={styles.listHeaderText}>
               Produtos
             </Text>

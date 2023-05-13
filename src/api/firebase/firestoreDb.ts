@@ -33,7 +33,7 @@ interface FirestoreFunctions {
     data: Data, 
     callbackCreate?: (id: string | null) => void,
     callbackUpdate?: (success: boolean) => void
-  ) => void;
+  ) => Promise<string | boolean | null>;
 
   readAllData: (
     collectionName: string, 
@@ -82,12 +82,14 @@ export const FirestoreFunctions: FirestoreFunctions = {
     
     try {
 
-      const docRef = await addDoc(collection(db, collectionName), data);
-      const id = docRef.id;
+      const {id, ...docData} = data; // Prevents an undefined id from being added to the document data, which would cause an error
 
-      if (callback) callback(id);
+      const docRef = await addDoc(collection(db, collectionName), docData);
+      const docId = docRef.id;
 
-      return id
+      if (callback) callback(docId);
+
+      return docId
 
     } catch (error) {
 
@@ -103,11 +105,11 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
     if(!id) {
 
-      FirestoreFunctions.createData(collectionName, data, callbackCreate);
+      return FirestoreFunctions.createData(collectionName, data, callbackCreate);
 
     } else {
 
-      FirestoreFunctions.updateData(collectionName, id, data, callbackUpdate);
+      return FirestoreFunctions.updateData(collectionName, id, data, callbackUpdate);
 
     }
 

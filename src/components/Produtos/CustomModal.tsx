@@ -8,7 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import { FirestoreFunctions as fsf } from '../../api/firebase/firestoreDb'; 
 
-const CustomModal = ({ isVisible, toggleModal, selectedData }: any) => {
+const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteItem }: any) => {
 
   const [id, setId] = useState<string>('');
   const [descricao, setDescricao] = useState<string>('');
@@ -94,7 +94,7 @@ const CustomModal = ({ isVisible, toggleModal, selectedData }: any) => {
         />
 
         <TouchableHighlight
-          onPress={() => fsf.createOrUpdateData('produtos', data.id!, data)}
+          onPress={() => saveItem(data)}
           style={modalStyles.submitBtn}
         >
           <Text style={modalStyles.submitBtnText}>Salvar</Text>
@@ -102,7 +102,7 @@ const CustomModal = ({ isVisible, toggleModal, selectedData }: any) => {
 
         {data.id && (
           <TouchableHighlight
-            onPress={() => fsf.deleteData('produtos', data.id!)}
+            onPress={() => deleteItem(data)}
             style={modalStyles.deleteBtn}
           >
             <Text style={modalStyles.deleteBtnText}>Excluir</Text>
