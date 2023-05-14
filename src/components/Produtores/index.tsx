@@ -66,6 +66,15 @@ const Produtos = () => {
         querySnapshot.forEach((doc: any) => {
           let data = {
             id: doc.id,
+            nome: doc.nome,
+            celular: doc.celular,
+            telefone: doc.telefone,
+            endereco: doc.endereco,
+            tipoLogradouro: doc.tipoLogradouro,
+            descLogradouro: doc.descLogradouro,
+            cep: doc.cep,
+            bairro: doc.bairro,
+            cidade: doc.cidade
           };
 
           setProdutores((oldArr) => [...oldArr, data]);
