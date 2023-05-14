@@ -8,13 +8,14 @@ import {
   View,
 } from "react-native";
 import Modal from "react-native-modal";
-import { styles } from "../../../assets/styles/home";
 import { modalStyles } from "../../../assets/styles/modal";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { FirestoreFunctions as fsf } from "../../api/firebase/firestoreDb";
 import { Produtor } from "../../models/Produtor";
+import { TextInputMask } from "react-native-masked-text";
+import { Picker } from "@react-native-picker/picker";
 
 const CustomModal = ({
   isVisible,
@@ -25,7 +26,7 @@ const CustomModal = ({
 }: any) => {
   const [id, setId] = useState<string>("");
   const [nome, setNome] = useState<string>("");
-  const [celular, setCelular]   = useState<string>("");
+  const [celular, setCelular] = useState<string>("");
   const [telefone, setTelefone] = useState<string>("");
   const [endereco, setEndereco] = useState<string>("");
   const [tipoLogradouro, setTipoLogradouro] = useState<string>("");
@@ -56,7 +57,7 @@ const CustomModal = ({
     descLogradouro: descLogradouro,
     cep: cep,
     bairro: bairro,
-    cidade: cidade
+    cidade: cidade,
   };
 
   return (
@@ -82,13 +83,54 @@ const CustomModal = ({
           style={modalStyles.input}
         />
 
-        <Text style={modalStyles.inputLabel}>Telefone:</Text>
-        <TextInput
-          value={telefone}
-          onChangeText={(value) => setTelefone(value)}
+        <Text style={modalStyles.inputLabel}>Celular:</Text>
+        <TextInputMask
+          type={'cel-phone'}
+          value={celular}
+          onChangeText={(value) => setCelular(value)}
+          options={{
+            maskType: 'BRL',
+            withDDD: true,
+            dddMask: '(99) '
+          }}
           underlineColorAndroid={"transparent"}
           style={modalStyles.input}
         />
+
+        <Text style={modalStyles.inputLabel}>Telefone:</Text>
+        <TextInputMask
+          type={'cel-phone'}
+          value={telefone}
+          onChangeText={(value) => setTelefone(value)}
+          options={{
+            maskType: 'BRL',
+            withDDD: true,
+            dddMask: '(99) '
+          }}
+          underlineColorAndroid={"transparent"}
+          style={modalStyles.input}
+        />
+
+        <Text style={modalStyles.inputLabel}>Endereço:</Text>
+        <TextInput
+          value={endereco}
+          onChangeText={(value) => setEndereco(value)}
+          underlineColorAndroid={"transparent"}
+          style={modalStyles.input}
+        />
+
+        <Picker
+          selectedValue={tipoLogradouro}
+          onValueChange={(value, index) => setTipoLogradouro(value)}
+        >
+          <Picker.Item label="Rua" value={'rua'}/>
+          <Picker.Item label="Avenida" value={'avenida'}/>
+          <Picker.Item label="Córrego" value={'corrego'}/>
+          <Picker.Item label="Rodovia" value={'rodovia'}/>
+          <Picker.Item label="Sítio" value={'sitio'}/>
+          <Picker.Item label="Fazenda" value={'fazenda'}/>
+          <Picker.Item label="Vale" value={'valet'}/>
+        </Picker>
 
         <TouchableHighlight
           onPress={() => saveItem(data)}
