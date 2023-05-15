@@ -89,16 +89,14 @@ const Produtos = () => {
       />
 
       <TouchableOpacity style={styles.createBtn} onPress={() => handleCreate()}>
-        <Feather name="plus" size={24} color="#FFF" />
         <Text style={styles.createBtnText}>Incluir</Text>
+        <Feather name="plus" size={24} color="#FFF" />
       </TouchableOpacity>
 
       <FlatList
         data={produtores}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <ProdutoresList data={item} editItem={handleEdit} />
-        )}
+        renderItem={({ item }) => <ProdutoresList data={item} editItem={handleEdit} />}
         ListHeaderComponent={
           <View style={styles.listHeader}>
             <Text style={styles.listHeaderText}>Produtores</Text>
