@@ -10,11 +10,12 @@ import {
 } from "react-native";
 import { styles } from "../../../assets/styles/login";
 
-import firebase from "../../api/firebase/config";
-import { Auth } from "../../api/firebase/auth";
+import { Auth } from "../../api/firebase/simpleAuth";
 
 const Login = () => {
     const [type, setType] = useState('login'); 
+
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -35,6 +36,16 @@ const Login = () => {
                 style={styles.logo}
                 alt="Logo"
             />
+
+            {type === 'register' && (
+                <TextInput
+                    onChangeText={(text) => setUsername(text)}
+                    value={username}
+                    placeholder="Usuário"
+                    underlineColorAndroid={'transparent'}
+                    style={styles.input}
+                />
+            )}
 
             <TextInput
                 onChangeText={(text) => setEmail(text)}

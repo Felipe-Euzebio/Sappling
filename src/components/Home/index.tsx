@@ -12,7 +12,7 @@ import Menus from '../Menus';
 
 import { MaterialIcons } from '@expo/vector-icons'; 
 
-import { Auth } from '../../api/firebase/auth';
+import { Auth } from '../../api/firebase/simpleAuth';
 
 const Home = ({ route, navigation }: any) => {
 
