@@ -16,7 +16,7 @@ import { Auth } from '../../api/firebase/simpleAuth';
 
 const Home = ({ route, navigation }: any) => {
 
-  const { userEmail } = route.params;
+  const { userName } = route.params;
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -33,7 +33,7 @@ const Home = ({ route, navigation }: any) => {
               style={styles.userImage}
             />
 
-            <Text style={styles.userText}>{userEmail}</Text>
+            <Text style={styles.userText}>{userName}</Text>
             
           </View>
 

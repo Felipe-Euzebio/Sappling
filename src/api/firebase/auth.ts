@@ -1,6 +1,35 @@
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, setDoc, doc } from 'firebase/firestore';
 import { Toasts } from '../toast-message/toasts';
 import { auth, db } from './config';
+
+import { FirestoreFunctions as fsf } from "./firestoreDb";
+
+const AuthErrors = (error: any) => {
+
+    let code = error.code;
+
+    switch (code) {
+
+        case code === 'auth/invalid-email':
+            Toasts.showError('Email inválido');
+            break;
+
+        case code === 'auth/email-already-in-use':
+            Toasts.showError('O endereço de e-mail já está sendo usado por outra conta');
+            break;
+
+        case code === 'auth/invalid-password':
+            Toasts.showError('Sua senha devem ter pelo menos 6 caracteres');
+            break;
+
+        default:
+            Toasts.showError('Erro desconhecido');
+            console.log('Error: ', error);
+            break;
+    
+    }
+
+}
 
 export const logout = async () => {
 
@@ -10,7 +39,7 @@ export const logout = async () => {
 
     } catch (error) {
 
-        Toasts.showError('Ops!', 'Não foi possível sair da sua conta.');
+        AuthErrors(error);
 
     }
 
@@ -24,7 +53,7 @@ export const login = async (email: string, password: string) => {
 
     } catch (error) {
 
-        Toasts.showError('Ops!', 'Não foi possível entrar na sua conta.');
+        AuthErrors(error);
 
     }
 
@@ -36,16 +65,15 @@ export const register = async (username: string, email: string, password: string
 
         const res = await auth.createUserWithEmailAndPassword(email, password);
         const user = res.user;
-
-        await addDoc(collection(db, "users"), {
-            uid: user?.uid,
-            username,
-            email,
+        
+        await setDoc(doc(db, "usuarios", user!.uid), {
+            usuario: username,
+            email: email,
         });
 
-    } catch (err) {
+    } catch (error) {
 
-        console.error(err);
+        AuthErrors(error);
 
     }
 

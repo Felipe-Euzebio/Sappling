@@ -23,7 +23,7 @@ const SapplingApp = ({ user }: any) => {
             <Stack.Screen 
                 name="Home" 
                 component={Home}
-                initialParams={{ userEmail: user.email }}
+                initialParams={{ userName: user.email }}
                 options={{
                     headerShown: false,
                 }}
