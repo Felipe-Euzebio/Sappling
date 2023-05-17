@@ -1,6 +1,6 @@
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
-import { styles } from "../../../assets/styles/produtos";
+import { styles_produto } from "../../../assets/styles/produtos";
 import { Feather } from "@expo/vector-icons";
 import { CustomModal } from "./CustomModal";
 
@@ -81,7 +81,7 @@ const Produtos = () => {
   ///////////////////////////////////////////////////////////////////////////////////////
 
   return (
-    <View style={styles.container}>
+    <View style={styles_produto.container}>
       <CustomModal
         isVisible={isModalVisible}
         toggleModal={toggleModal}
@@ -90,8 +90,8 @@ const Produtos = () => {
         deleteItem={handleDeleteItem}
       />
 
-      <TouchableOpacity style={styles.createBtn} onPress={() => handleCreate()}>
-        <Text style={styles.createBtnText}>Incluir</Text>
+      <TouchableOpacity style={styles_produto.createBtn} onPress={() => handleCreate()}>
+        <Text style={styles_produto.createBtnText}>Incluir</Text>
         <Feather name="plus" size={24} color="#FFF" />
       </TouchableOpacity>
 
@@ -100,13 +100,13 @@ const Produtos = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <ProdutosList data={item} editItem={handleEdit} />}
         ListHeaderComponent={
-          <View style={styles.listHeader}>
-            <Text style={styles.listHeaderText}>Produtos</Text>
+          <View style={styles_produto.listHeader}>
+            <Text style={styles_produto.listHeaderText}>Produtos</Text>
           </View>
         }
         showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[0]}
-        style={styles.listContainer}
+        style={styles_produto.listContainer}
       />
     </View>
   );

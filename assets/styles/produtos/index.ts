@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 const shadow = {
+  elevation: 2,
   shadowColor: "#000",
   shadowOffset: {
     width: 0,
@@ -9,7 +10,7 @@ const shadow = {
   shadowOpacity: 0.15,
   shadowRadius: 3.84,
 };
-export const styles = StyleSheet.create({
+export const styles_produto = StyleSheet.create({
   container: {
     margin: 10,
   },

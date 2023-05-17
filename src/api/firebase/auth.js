@@ -1,6 +1,9 @@
 import { Toasts } from "../toast-message/toasts";
 import firebase from "./config";
 
+import { db } from "./config";
+import { getFirestore, query, getDocs, collection, where, addDoc } from "firebase/firestore";
+
 const AuthErrors = (error) => {
   var code = error.code;
 
@@ -48,6 +51,21 @@ export const Auth = {
       } catch (error) {
         AuthErrors(error);
       }
+    }
+  },
+
+  registerUser: async (email, password, username) => {
+    try {
+      const res = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      const user = res.user;
+      await addDoc(collection(db, "users"), {
+        uid: user.uid,
+        username,
+        email,
+      });
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
     }
   },
 };

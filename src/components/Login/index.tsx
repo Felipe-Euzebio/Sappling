@@ -12,6 +12,7 @@ const Login = () => {
   const [type, setType] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   const handleAuthType = () => {
     setType((type) => (type === "login" ? "register" : "login"));
@@ -23,10 +24,27 @@ const Login = () => {
   };
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container} enabled>
+    <KeyboardAvoidingView behavior="height" style={styles.container} enabled>
+      <StatusBar hidden backgroundColor="#228B22" translucent={true} />
       <SafeAreaView>
-        <StatusBar hidden={false} backgroundColor="#000000" translucent={true} />
         <Image source={require("../../../assets/images/logo.png")} style={styles.logo} alt="Logo" />
+
+        {type === "register" && (
+          <View>
+            <View>
+              <Text style={styles.label}>Usuário</Text>
+            </View>
+            <View>
+              <TextInput
+                onChangeText={(text) => setUsername(text)}
+                value={username}
+                // placeholder="Email aqui"
+                underlineColorAndroid={"transparent"}
+                style={styles.input}
+              />
+            </View>
+          </View>
+        )}
 
         <View>
           <View>
@@ -61,7 +79,7 @@ const Login = () => {
         </View>
 
         <TouchableOpacity
-          onPress={() => Auth.loginOrRegister(email, password, type)}
+          onPress={() => Auth.registerUser(email, password, username)}
           disabled={handleRequiredFields()}
           style={[
             styles.handleLoginBtn,
