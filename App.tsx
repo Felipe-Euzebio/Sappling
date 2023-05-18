@@ -6,6 +6,7 @@ import Login from './src/components/Login';
 import Toast from 'react-native-toast-message';
 
 import { FirestoreFunctions as fsf } from './src/api/firebase/firestoreDb';
+import { readDataFromStorage } from './src/helpers/asyncStorage'
 
 const App = () => {
 
@@ -29,7 +30,7 @@ const App = () => {
 
     return (
       <>
-        <SapplingApp user={user}/>
+        <SapplingApp userData={setUser}/>
         <Toast />
       </>
     )

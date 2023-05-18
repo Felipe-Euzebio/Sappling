@@ -8,7 +8,8 @@ import Produtores from '../Produtores';
 
 const Stack = createStackNavigator();
 
-const SapplingApp = ({ user }: any) => {
+const SapplingApp = ({ userData }: any) => {
+
   return (
     <NavigationContainer>
         <Stack.Navigator 
@@ -23,7 +24,7 @@ const SapplingApp = ({ user }: any) => {
             <Stack.Screen 
                 name="Home" 
                 component={Home}
-                initialParams={{ userName: user.email }}
+                initialParams={{ userName: userData.usuario }}
                 options={{
                     headerShown: false,
                 }}

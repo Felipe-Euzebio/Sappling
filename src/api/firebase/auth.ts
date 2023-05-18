@@ -1,10 +1,16 @@
-import { addDoc, collection, setDoc, doc } from 'firebase/firestore';
+import { 
+    addDoc, 
+    collection, 
+    setDoc, 
+    doc, 
+    getDoc 
+} from 'firebase/firestore';
 import { Toasts } from '../toast-message/toasts';
 import { auth, db } from './config';
 
 import { FirestoreFunctions as fsf } from "./firestoreDb";
 
-const AuthErrors = (error: any) => {
+const authErrors = (error: any) => {
 
     let code = error.code;
 
@@ -31,6 +37,10 @@ const AuthErrors = (error: any) => {
 
 }
 
+const getUsernameFromEmail = (email: string) => {
+    return email.split("@")[0];
+}
+
 export const logout = async () => {
 
     try {
@@ -39,7 +49,7 @@ export const logout = async () => {
 
     } catch (error) {
 
-        AuthErrors(error);
+        authErrors(error);
 
     }
 
@@ -49,11 +59,24 @@ export const login = async (email: string, password: string) => {
 
     try {
 
-        const {user: user} = await auth.signInWithEmailAndPassword(email, password);
+        const res = await auth.signInWithEmailAndPassword(email, password);
+        const user = res.user;
+
+        const userDocRef = doc(db, "usuarios", user!.uid);
+        const userDocSnapshot = await getDoc(userDocRef);
+
+        if (!userDocSnapshot.exists()) {
+                
+            await setDoc(doc(db, "usuarios", user!.uid), {
+                usuario: getUsernameFromEmail(email),
+                email: email,
+            });
+    
+        }
 
     } catch (error) {
 
-        AuthErrors(error);
+        authErrors(error);
 
     }
 
@@ -73,7 +96,7 @@ export const register = async (username: string, email: string, password: string
 
     } catch (error) {
 
-        AuthErrors(error);
+        authErrors(error);
 
     }
 
