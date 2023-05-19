@@ -6,9 +6,27 @@ import Produtos from '../Produtos';
 import ProducaoAnual from '../ProducaoAnual';
 import Produtores from '../Produtores';
 
+import { readDataFromStorage } from '../../helpers/asyncStorage';
+import {useEffect, useState } from 'react';
+
 const Stack = createStackNavigator();
 
-const SapplingApp = ({ user }: any) => {
+const SapplingApp = () => {
+
+  const [userData, setUserData] = useState<any>(null);
+
+  const getUserStorageData = async () => {
+
+    await readDataFromStorage('userStorage').then((data) => {
+      setUserData(data);
+    });
+
+  }
+
+  useEffect(() => {
+    getUserStorageData();
+  }, []);
+
   return (
     <NavigationContainer>
         <Stack.Navigator 
@@ -22,12 +40,12 @@ const SapplingApp = ({ user }: any) => {
           <Stack.Group>
             <Stack.Screen 
                 name="Home" 
-                component={Home}
-                initialParams={{ userName: user.email }}
                 options={{
                     headerShown: false,
                 }}
-            />
+            >
+              {() => <Home userData={userData}/>}
+            </Stack.Screen>
             <Stack.Screen 
                 name="Produtos" 
                 component={Produtos}

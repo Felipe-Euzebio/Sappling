@@ -1,24 +1,28 @@
-import { addDoc, collection, setDoc, doc } from 'firebase/firestore';
+import { 
+    addDoc, 
+    collection, 
+    setDoc, 
+    doc, 
+    getDoc 
+} from 'firebase/firestore';
 import { Toasts } from '../toast-message/toasts';
 import { auth, db } from './config';
 
-import { FirestoreFunctions as fsf } from "./firestoreDb";
+import { writeDataToStorage, removeDataFromStorage } from '../../helpers/asyncStorage';
 
-const AuthErrors = (error: any) => {
+const authErrors = (error: any) => {
 
-    let code = error.code;
+    switch (error.code) {
 
-    switch (code) {
-
-        case code === 'auth/invalid-email':
+        case 'auth/invalid-email':
             Toasts.showError('Email inválido');
             break;
 
-        case code === 'auth/email-already-in-use':
+        case 'auth/email-already-in-use':
             Toasts.showError('O endereço de e-mail já está sendo usado por outra conta');
             break;
 
-        case code === 'auth/invalid-password':
+        case 'auth/invalid-password':
             Toasts.showError('Sua senha devem ter pelo menos 6 caracteres');
             break;
 
@@ -31,15 +35,20 @@ const AuthErrors = (error: any) => {
 
 }
 
+const getUsernameFromEmail = (email: string) => {
+    return email.split("@")[0];
+}
+
 export const logout = async () => {
 
     try {
 
         await auth.signOut();
+        await removeDataFromStorage('userStorage');
 
     } catch (error) {
 
-        AuthErrors(error);
+        authErrors(error);
 
     }
 
@@ -49,11 +58,29 @@ export const login = async (email: string, password: string) => {
 
     try {
 
-        const {user: user} = await auth.signInWithEmailAndPassword(email, password);
+        const res = await auth.signInWithEmailAndPassword(email, password);
+        const user = res.user;
+
+        const userDocRef = doc(db, "usuarios", user!.uid);
+        const userDocSnapshot = await getDoc(userDocRef);
+
+        if (!userDocSnapshot.exists()) {
+                
+            await setDoc(doc(db, "usuarios", user!.uid), {
+                usuario: getUsernameFromEmail(email),
+                email: email,
+            });
+    
+        }
+
+        writeDataToStorage('userStorage', { 
+            usuario: getUsernameFromEmail(email),
+            email: email,
+        });
 
     } catch (error) {
 
-        AuthErrors(error);
+        authErrors(error);
 
     }
 
@@ -71,9 +98,14 @@ export const register = async (username: string, email: string, password: string
             email: email,
         });
 
+        writeDataToStorage('userStorage', { 
+            usuario: username,
+            email: email,
+        });
+
     } catch (error) {
 
-        AuthErrors(error);
+        authErrors(error);
 
     }
 
