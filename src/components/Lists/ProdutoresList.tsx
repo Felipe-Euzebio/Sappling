@@ -8,6 +8,7 @@ import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
 import { styles } from "../../../assets/styles/produtores";
 
 export default function ProdutoresList({ data, editItem }: any) {
+  console.log(data);
   return (
     <View style={styles.listItemContainer}>
       <TouchableHighlight

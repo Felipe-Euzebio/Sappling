@@ -1,12 +1,18 @@
 import { StyleSheet } from 'react-native'
 
 export const modalStyles = StyleSheet.create({
-    modalBody: {
+    modalContainer: {
         flex: 1,
+    },
+    modalBody: {
         backgroundColor: '#fff',
         padding: 10,
         borderBottomStartRadius: 10,
         borderBottomEndRadius: 10,
+    },
+    modalForm: {
+        marginTop: 5,
+        marginBottom: 20,
     },
     modalHeader: {
         flexDirection: 'row',

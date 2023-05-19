@@ -10,11 +10,12 @@ import {
 } from "react-native";
 import { styles } from "../../../assets/styles/login";
 
-import firebase from "../../api/firebase/config";
-import { Auth } from "../../api/firebase/auth";
+import { loginOrRegister } from "../../api/firebase/auth";
 
 const Login = () => {
     const [type, setType] = useState('login'); 
+
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -36,6 +37,16 @@ const Login = () => {
                 alt="Logo"
             />
 
+            {type === 'register' && (
+                <TextInput
+                    onChangeText={(text) => setUsername(text)}
+                    value={username}
+                    placeholder="Usuário"
+                    underlineColorAndroid={'transparent'}
+                    style={styles.input}
+                />
+            )}
+
             <TextInput
                 onChangeText={(text) => setEmail(text)}
                 value={email}
@@ -55,7 +66,7 @@ const Login = () => {
             />
 
             <TouchableOpacity 
-                onPress={() => Auth.loginOrRegister(email, password, type)}
+                onPress={() => loginOrRegister(username, email, password, type)}
                 disabled={handleRequiredFields()}
                 style={[styles.handleLoginBtn, { 
                     backgroundColor: type === 'login' ? '#228B22' : '#141414'
