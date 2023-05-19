@@ -14,9 +14,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import { Auth } from '../../api/firebase/simpleAuth';
 
-const Home = ({ route, navigation }: any) => {
-
-  const { userName } = route.params;
+const Home = ({ userData, navigation }: any) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -33,7 +31,7 @@ const Home = ({ route, navigation }: any) => {
               style={styles.userImage}
             />
 
-            <Text style={styles.userText}>{userName}</Text>
+            <Text style={styles.userText}>{userData?.usuario}</Text>
             
           </View>
 

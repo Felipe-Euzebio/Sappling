@@ -19,6 +19,8 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [isFormValid, setIsFormValid] = useState(false);
+
     const handleAuthType = () => {
         setType(type => type === 'login' ? 'register' : 'login'); 
     };
@@ -38,38 +40,45 @@ const Login = () => {
             />
 
             {type === 'register' && (
+                <View>
+                    <TextInput
+                        onChangeText={(text) => setUsername(text)}
+                        value={username}
+                        placeholder="Usuário"
+                        underlineColorAndroid={'transparent'}
+                        style={styles.input}
+                    />
+                </View>
+            )}
+
+            <View>
                 <TextInput
-                    onChangeText={(text) => setUsername(text)}
-                    value={username}
-                    placeholder="Usuário"
+                    onChangeText={(text) => setEmail(text)}
+                    value={email}
+                    placeholder="Email"
+                    underlineColorAndroid={'transparent'}
+                    autoComplete={'email'}
+                    style={styles.input}
+                />
+            </View>
+
+            <View>
+                <TextInput
+                    onChangeText={(text) => setPassword(text)}
+                    value={password}
+                    secureTextEntry={true}
+                    placeholder="Senha"
                     underlineColorAndroid={'transparent'}
                     style={styles.input}
                 />
-            )}
-
-            <TextInput
-                onChangeText={(text) => setEmail(text)}
-                value={email}
-                placeholder="Email"
-                underlineColorAndroid={'transparent'}
-                autoComplete={'email'}
-                style={styles.input}
-            />
-
-            <TextInput
-                onChangeText={(text) => setPassword(text)}
-                value={password}
-                secureTextEntry={true}
-                placeholder="Senha"
-                underlineColorAndroid={'transparent'}
-                style={styles.input}
-            />
+            </View>
 
             <TouchableOpacity 
                 onPress={() => loginOrRegister(username, email, password, type)}
                 disabled={handleRequiredFields()}
                 style={[styles.handleLoginBtn, { 
-                    backgroundColor: type === 'login' ? '#228B22' : '#141414'
+                    backgroundColor: type === 'login' ? '#228B22' : '#141414',
+                    opacity: handleRequiredFields() ? 0.5 : 1,
                 }]}
             >
                 <Text style={styles.handleLoginText}>
