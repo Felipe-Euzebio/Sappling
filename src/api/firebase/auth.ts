@@ -8,23 +8,21 @@ import {
 import { Toasts } from '../toast-message/toasts';
 import { auth, db } from './config';
 
-import { FirestoreFunctions as fsf } from "./firestoreDb";
+import { writeDataToStorage, removeDataFromStorage } from '../../helpers/asyncStorage';
 
 const authErrors = (error: any) => {
 
-    let code = error.code;
+    switch (error.code) {
 
-    switch (code) {
-
-        case code === 'auth/invalid-email':
+        case 'auth/invalid-email':
             Toasts.showError('Email inválido');
             break;
 
-        case code === 'auth/email-already-in-use':
+        case 'auth/email-already-in-use':
             Toasts.showError('O endereço de e-mail já está sendo usado por outra conta');
             break;
 
-        case code === 'auth/invalid-password':
+        case 'auth/invalid-password':
             Toasts.showError('Sua senha devem ter pelo menos 6 caracteres');
             break;
 
@@ -46,6 +44,7 @@ export const logout = async () => {
     try {
 
         await auth.signOut();
+        await removeDataFromStorage('userStorage');
 
     } catch (error) {
 
@@ -74,6 +73,11 @@ export const login = async (email: string, password: string) => {
     
         }
 
+        writeDataToStorage('userStorage', { 
+            usuario: getUsernameFromEmail(email),
+            email: email,
+        });
+
     } catch (error) {
 
         authErrors(error);
@@ -90,6 +94,11 @@ export const register = async (username: string, email: string, password: string
         const user = res.user;
         
         await setDoc(doc(db, "usuarios", user!.uid), {
+            usuario: username,
+            email: email,
+        });
+
+        writeDataToStorage('userStorage', { 
             usuario: username,
             email: email,
         });

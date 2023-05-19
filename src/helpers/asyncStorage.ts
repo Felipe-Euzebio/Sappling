@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Read data from AsyncStorage
 async function readDataFromStorage(key: string): Promise<any | null> {
   try {
-    const value = await AsyncStorage.getItem(key);
+    const value: any = await AsyncStorage.getItem(key);
     return value != null ? JSON.parse(value) : null;
   } catch (error) {
     console.log('Error reading data from AsyncStorage:', error);

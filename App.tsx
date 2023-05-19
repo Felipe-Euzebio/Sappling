@@ -5,9 +5,6 @@ import SapplingApp from './src/components/SapplingApp';
 import Login from './src/components/Login';
 import Toast from 'react-native-toast-message';
 
-import { FirestoreFunctions as fsf } from './src/api/firebase/firestoreDb';
-import { readDataFromStorage } from './src/helpers/asyncStorage'
-
 const App = () => {
 
   const [user, setUser] = useState<any>(null);
@@ -30,7 +27,7 @@ const App = () => {
 
     return (
       <>
-        <SapplingApp userData={setUser}/>
+        <SapplingApp />
         <Toast />
       </>
     )
