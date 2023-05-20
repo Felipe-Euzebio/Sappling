@@ -1,39 +1,30 @@
 import React, { useEffect, useState } from "react";
 import {
   ScrollView,
-  Button,
   Text,
   TextInput,
-  TouchableOpacity,
   TouchableHighlight,
   View,
-  KeyboardAvoidingView,
 } from "react-native";
 import Modal from "react-native-modal";
-import { styles } from "../../../assets/styles/home";
 import { modalStyles } from "../../../assets/styles/modal";
-
 import { MaterialIcons } from "@expo/vector-icons";
-
-import { FirestoreFunctions as fsf } from "../../api/firebase/firestoreDb";
 import { Produto } from "../../models/Produto";
+// import { FirestoreFunctions as fsf } from "../../api/firebase/firestoreDb";
 
 const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteItem }: any) => {
   const [id, setId] = useState<string>("");
   const [descricao, setDescricao] = useState<string>("");
   const [observacao, setObservacao] = useState<string>("");
-  const [operationType, setOperationType] = useState<string>(""); // 'create' or 'update'
+  // const [operationType, setOperationType] = useState<string>(""); // 'create' or 'update'
 
   useEffect(() => {
     if (selectedData) {
-      // console.log(selectedData);
 
       setId(selectedData.id);
       setDescricao(selectedData.descricao);
       setObservacao(selectedData.observacao);
     } else {
-      // console.log('selectedData is null');
-
       setId("");
       setDescricao("");
       setObservacao("");
