@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Button, Text, TextInput, TouchableOpacity, TouchableHighlight, View, ScrollView } from "react-native";
+import {
+  Button,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableHighlight,
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import Modal from "react-native-modal";
 import { modalStyles } from "../../../assets/styles/modal";
 
@@ -16,7 +26,7 @@ const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteIte
   const [celular, setCelular] = useState<string>("");
   const [telefone, setTelefone] = useState<string>("");
   const [endereco, setEndereco] = useState<string>("");
-  const [tipoLogradouro, setTipoLogradouro] = useState<string>("");
+  const [tipoLogradouro, setTipoLogradouro] = useState<string>("rua");
   const [descLogradouro, setDescLogradouro] = useState<string>("");
   const [cep, setCep] = useState<string>("");
   const [bairro, setBairro] = useState<string>("");
@@ -27,8 +37,26 @@ const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteIte
   useEffect(() => {
     if (selectedData) {
       setId(selectedData.id);
+      setNome(selectedData.nome);
+      setCelular(selectedData.celular);
+      setTelefone(selectedData.telefone);
+      setEndereco(selectedData.endereco);
+      setTipoLogradouro(selectedData.tipoLogradouro);
+      setDescLogradouro(selectedData.descLogradouro);
+      setCep(selectedData.cep);
+      setBairro(selectedData.bairro);
+      setCidade(selectedData.cidade);
     } else {
       setId("");
+      setNome("");
+      setCelular("");
+      setTelefone("");
+      setEndereco("");
+      setTipoLogradouro("rua");
+      setDescLogradouro("");
+      setCep("");
+      setBairro("");
+      setCidade("");
     }
   }, [selectedData]);
 
@@ -38,6 +66,7 @@ const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteIte
 
   const data: Produtor = {
     nome: nome,
+    telefone: telefone,
     celular: celular,
     endereco: endereco,
     tipoLogradouro: tipoLogradouro,
@@ -48,14 +77,14 @@ const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteIte
   };
 
   return (
-    <Modal isVisible={isVisible} avoidKeyboard>
+    <Modal isVisible={isVisible} avoidKeyboard={true} coverScreen={true} style={modalStyles.modalContainer}>
       <View style={modalStyles.modalHeader}>
         <Text style={modalStyles.modalHeaderText}>Incluir Registro</Text>
         <MaterialIcons name="close" size={24} color="black" onPress={closeModal} />
       </View>
 
-      <View style={modalStyles.modalBody}>
-        <ScrollView>
+      <ScrollView style={modalStyles.modalBody} showsVerticalScrollIndicator={false}>
+        <View style={modalStyles.modalForm}>
           <TextInput value={id} style={modalStyles.inputHidden} />
 
           <Text style={modalStyles.inputLabel}>Nome:</Text>
@@ -102,6 +131,15 @@ const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteIte
             style={modalStyles.input}
           />
 
+          <Text style={modalStyles.inputLabel}>Logradouro:</Text>
+          <TextInput
+            value={descLogradouro}
+            onChangeText={(value) => setDescLogradouro(descLogradouro)}
+            underlineColorAndroid={"transparent"}
+            style={modalStyles.input}
+          />
+
+          <Text style={modalStyles.inputLabel}>Tipo de Logradouro:</Text>
           <Picker selectedValue={tipoLogradouro} onValueChange={(value, index) => setTipoLogradouro(value)}>
             <Picker.Item label="Rua" value={"rua"} />
             <Picker.Item label="Avenida" value={"avenida"} />
@@ -112,16 +150,46 @@ const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteIte
             <Picker.Item label="Vale" value={"valet"} />
           </Picker>
 
+          <Text style={modalStyles.inputLabel}>CEP:</Text>
+          <TextInputMask
+            type={"zip-code"}
+            value={cep}
+            onChangeText={(value) => setCep(value)}
+            options={{
+              maskType: "BRL",
+              mask: "99999-999",
+            }}
+            underlineColorAndroid={"transparent"}
+            style={modalStyles.input}
+          />
+
+          <Text style={modalStyles.inputLabel}>Bairro:</Text>
+          <TextInput
+            value={bairro}
+            onChangeText={(value) => setBairro(value)}
+            underlineColorAndroid={"transparent"}
+            style={modalStyles.input}
+          />
+
+          <Text style={modalStyles.inputLabel}>Cidade:</Text>
+          <TextInput
+            value={cidade}
+            onChangeText={(value) => setCidade(value)}
+            underlineColorAndroid={"transparent"}
+            style={modalStyles.input}
+          />
+
+          <TouchableHighlight onPress={() => saveItem(data)} style={modalStyles.submitBtn}>
+            <Text style={modalStyles.submitBtnText}>Salvar</Text>
+          </TouchableHighlight>
+
           {data.id && (
             <TouchableHighlight onPress={() => deleteItem(data)} style={modalStyles.deleteBtn}>
               <Text style={modalStyles.deleteBtnText}>Excluir</Text>
             </TouchableHighlight>
           )}
-        </ScrollView>
-        <TouchableHighlight onPress={() => saveItem(data)} style={modalStyles.submitBtn}>
-          <Text style={modalStyles.submitBtnText}>Salvar</Text>
-        </TouchableHighlight>
-      </View>
+        </View>
+      </ScrollView>
     </Modal>
   );
 };

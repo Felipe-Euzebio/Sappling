@@ -6,15 +6,15 @@ import Menus from "../Menus";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { Auth } from "../../api/firebase/auth";
+import { Auth } from "../../api/firebase/simpleAuth";
+
 import { FlatList } from "react-native-gesture-handler";
 import ProdutosList from "../Lists/ProdutosList";
 import { useEffect, useState } from "react";
 import { FirestoreFunctions } from "../../api/firebase/firestoreDb";
 import { CustomModal } from "../Produtos/CustomModal";
 
-const Home = ({ route, navigation }: any) => {
-  const { userEmail } = route.params;
+const Home = ({ userData, navigation }: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [produtos, setProdutos] = useState<any[]>([]);
   const [selectedData, setSelectedData] = useState<any[]>([]);
@@ -85,7 +85,7 @@ const Home = ({ route, navigation }: any) => {
           <View style={styles.userProfile}>
             <Image source={require("../../../assets/images/user.png")} style={styles.userImage} />
 
-            <Text style={styles.userText}>{userEmail}</Text>
+            <Text style={styles.userText}>{userData?.usuario}</Text>
           </View>
 
           <TouchableWithoutFeedback onPress={() => Auth.logout()}>

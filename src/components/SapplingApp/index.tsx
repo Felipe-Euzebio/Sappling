@@ -9,55 +9,43 @@ import ProducaoAnual from "../ProducaoAnual";
 import Produtores from "../Produtores";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
+import { readDataFromStorage } from "../../helpers/asyncStorage";
+import { useEffect, useState } from "react";
+
 const Stack = createStackNavigator();
 
-const NaviContainer = (props: any) => {
-  console.log(props.route);
-  console.log(props.back);
-  const navigation = useNavigation<any>();
+const SapplingApp = () => {
+  const [userData, setUserData] = useState<any>(null);
 
-  return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate(props.back.title)}
-      style={{
-        // backgroundColor: "#228B22",
-        marginTop: 20,
-        marginBottom: 0,
-        height: 50,
-        margin: 10,
-        flexDirection: "row",
-        alignItems: "center",
-      }}
-    >
-      <Feather name="arrow-left" size={24} color={"#228B22"} />
-      <Text style={{ marginStart: 10, fontSize: 20, fontWeight: "bold", color: "#228B22" }}>{props.route.name}</Text>
-    </TouchableOpacity>
-  );
-};
+  const getUserStorageData = async () => {
+    await readDataFromStorage("userStorage").then((data) => {
+      setUserData(data);
+    });
+  };
 
-const SapplingApp = ({ user }: any) => {
+  useEffect(() => {
+    getUserStorageData();
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
-          cardStyle: {
-            backgroundColor: "#fff",
-          },
-          headerTintColor: "#000000",
-          headerStyle: { backgroundColor: "#fff" },
+          headerTintColor: "#FFF",
+          headerStyle: { backgroundColor: "#228B22" },
           presentation: "modal",
         }}
       >
         <Stack.Group>
           <Stack.Screen
             name="Home"
-            component={Home}
-            initialParams={{ userEmail: user.email }}
             options={{
               headerShown: false,
             }}
-          />
+          >
+            {() => <Home userData={userData} />}
+          </Stack.Screen>
           <Stack.Screen name="Produtos" component={Produtos} />
           <Stack.Screen
             name="Produtores"

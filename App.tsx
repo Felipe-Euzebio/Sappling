@@ -21,7 +21,7 @@ const App = () => {
   if (user) {
     return (
       <>
-        <SapplingApp user={user} />
+        <SapplingApp />
         <Toast />
       </>
     );

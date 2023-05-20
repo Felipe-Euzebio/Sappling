@@ -3,16 +3,18 @@ import { View, Button, TextInput, SafeAreaView, Text, TouchableOpacity, Image, K
 import Modal from "react-native-modal";
 import { styles } from "../../../assets/styles/login";
 
-import firebase from "../../api/firebase/config";
-import { Auth } from "../../api/firebase/auth";
+import { loginOrRegister } from "../../api/firebase/auth";
 import { StatusBar } from "expo-status-bar";
-import { FadeIn } from "react-native-reanimated";
+import { Auth } from "../../api/firebase/simpleAuth";
 
 const Login = () => {
   const [type, setType] = useState("login");
+
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleAuthType = () => {
     setType((type) => (type === "login" ? "register" : "login"));
@@ -29,57 +31,58 @@ const Login = () => {
       <SafeAreaView>
         <Image source={require("../../../assets/images/logo.png")} style={styles.logo} alt="Logo" />
 
+        <Image source={require("../../../assets/images/logo.png")} style={styles.logo} alt="Logo" />
+
         {type === "register" && (
           <View>
-            <View>
-              <Text style={styles.label}>Usuário</Text>
-            </View>
-            <View>
-              <TextInput
-                onChangeText={(text) => setUsername(text)}
-                value={username}
-                // placeholder="Email aqui"
-                underlineColorAndroid={"transparent"}
-                style={styles.input}
-              />
-            </View>
+            <TextInput
+              onChangeText={(text) => setUsername(text)}
+              value={username}
+              placeholder="Usuário"
+              underlineColorAndroid={"transparent"}
+              style={styles.input}
+            />
           </View>
         )}
 
         <View>
-          <View>
-            <Text style={styles.label}>Email</Text>
-          </View>
-          <View>
-            <TextInput
-              onChangeText={(text) => setEmail(text)}
-              value={email}
-              // placeholder="Email aqui"
-              underlineColorAndroid={"transparent"}
-              autoComplete={"email"}
-              style={styles.input}
-            />
-          </View>
+          <TextInput
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            placeholder="Email"
+            underlineColorAndroid={"transparent"}
+            autoComplete={"email"}
+            style={styles.input}
+          />
         </View>
 
         <View>
-          <View>
-            <Text style={styles.label}>Senha</Text>
-          </View>
-          <View>
-            <TextInput
-              onChangeText={(text) => setPassword(text)}
-              value={password}
-              secureTextEntry={true}
-              // placeholder="Senha aqui"
-              underlineColorAndroid={"transparent"}
-              style={styles.input}
-            />
-          </View>
+          <TextInput
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            secureTextEntry={true}
+            placeholder="Senha"
+            underlineColorAndroid={"transparent"}
+            style={styles.input}
+          />
         </View>
 
         <TouchableOpacity
-          onPress={() => Auth.registerUser(email, password, username)}
+          onPress={() => loginOrRegister(username, email, password, type)}
+          disabled={handleRequiredFields()}
+          style={[
+            styles.handleLoginBtn,
+            {
+              backgroundColor: type === "login" ? "#228B22" : "#141414",
+              opacity: handleRequiredFields() ? 0.5 : 1,
+            },
+          ]}
+        >
+          <Text style={styles.handleLoginText}>{type === "login" ? "Acessar" : "Cadastrar"}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => Auth.loginOrRegister(email, password, username)}
           disabled={handleRequiredFields()}
           style={[
             styles.handleLoginBtn,

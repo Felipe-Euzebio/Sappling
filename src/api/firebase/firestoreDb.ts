@@ -19,6 +19,10 @@ type Data = {
 
 type QueryOperator = "<" | "<=" | "==" | ">=" | ">" | "!=";
 
+interface AnyObject {
+  [key: string]: any;
+}
+
 interface FirestoreFunctions {
 
   createData: (
@@ -76,13 +80,21 @@ interface FirestoreFunctions {
 
 }
 
+// Firebase does not accept undefined values, 
+// so we need to filter them out before sending data to Firestore
+function filterUndefinedProps<T extends AnyObject>(obj: T): Partial<T> {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([_, v]) => v !== undefined)
+  ) as Partial<T>;
+}
+
 export const FirestoreFunctions: FirestoreFunctions = {
 
   createData: async (collectionName, data, callback) => {
     
     try {
 
-      const {id, ...docData} = data; // Prevents an undefined id from being added to the document data, which would cause an error
+      let docData = filterUndefinedProps(data);
 
       const docRef = await addDoc(collection(db, collectionName), docData);
       const docId = docRef.id;
@@ -143,7 +155,9 @@ export const FirestoreFunctions: FirestoreFunctions = {
       const q = query(collection(db, collectionName), where(field, operator, value));
       const querySnapshot = await getDocs(q);
 
-      const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const data = querySnapshot.docs.map((doc) => {
+        return { id: doc.id, ...doc.data() };
+      });
 
       if (callback) callback(data);
 
@@ -194,7 +208,10 @@ export const FirestoreFunctions: FirestoreFunctions = {
     try {
 
       const docRef = doc(db, collectionName, id);
-      await updateDoc(docRef, data);
+
+      let docData = filterUndefinedProps(data);
+
+      await updateDoc(docRef, docData);
 
       if (callback) callback(true);
 
@@ -216,7 +233,9 @@ export const FirestoreFunctions: FirestoreFunctions = {
       
       const docRef = doc(db, collectionName, id);
 
-      await updateDoc(docRef, data);
+      let docData = filterUndefinedProps(data);
+
+      await updateDoc(docRef, docData);
 
       const docSnapshot = await getDoc(docRef);
 
