@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { View, Button, TextInput, SafeAreaView, Text, TouchableOpacity, Image, KeyboardAvoidingView } from "react-native";
-import Modal from "react-native-modal";
+import { View, TextInput, SafeAreaView, Text, TouchableOpacity, Image, KeyboardAvoidingView } from "react-native";
 import { styles } from "../../../assets/styles/login";
 
 import { loginOrRegister } from "../../api/firebase/auth";
 import { StatusBar } from "expo-status-bar";
-import { Auth } from "../../api/firebase/simpleAuth";
 
 const Login = () => {
   const [type, setType] = useState("login");
@@ -29,8 +27,6 @@ const Login = () => {
     <KeyboardAvoidingView behavior="height" style={styles.container} enabled>
       <StatusBar hidden backgroundColor="#228B22" translucent={true} />
       <SafeAreaView>
-        <Image source={require("../../../assets/images/logo.png")} style={styles.logo} alt="Logo" />
-
         <Image source={require("../../../assets/images/logo.png")} style={styles.logo} alt="Logo" />
 
         {type === "register" && (
@@ -75,19 +71,6 @@ const Login = () => {
             {
               backgroundColor: type === "login" ? "#228B22" : "#141414",
               opacity: handleRequiredFields() ? 0.5 : 1,
-            },
-          ]}
-        >
-          <Text style={styles.handleLoginText}>{type === "login" ? "Acessar" : "Cadastrar"}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => Auth.loginOrRegister(email, password, username)}
-          disabled={handleRequiredFields()}
-          style={[
-            styles.handleLoginBtn,
-            {
-              backgroundColor: type === "login" ? "#228B22" : "#141414",
             },
           ]}
         >

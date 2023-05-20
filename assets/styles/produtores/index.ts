@@ -3,9 +3,10 @@ import shadow from "../produtos";
 
 export const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    flex: 1
   },
   createBtn: {
+    margin: 10,
     backgroundColor: "#3EA6F2",
     padding: 15,
     borderRadius: 8,
@@ -22,10 +23,9 @@ export const styles = StyleSheet.create({
     marginLeft: 5,
   },
   listContainer: {
-    // backgroundColor: "#A9A9A9",
-    marginTop: 10,
+    flex: 1,
     borderRadius: 6,
-    height: 400,
+    margin: 10,
   },
   listHeader: {
     borderTopLeftRadius: 6,

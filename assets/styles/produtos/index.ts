@@ -12,7 +12,8 @@ const shadow = {
 };
 export const styles_produto = StyleSheet.create({
   container: {
-    margin: 10,
+    flex: 1,
+    margin: 0,
   },
   createBtn: {
     backgroundColor: "#3EA6F2",
@@ -22,6 +23,7 @@ export const styles_produto = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginVertical: 10,
+    margin: 10,
     ...shadow,
   },
   createBtnText: {
@@ -31,10 +33,12 @@ export const styles_produto = StyleSheet.create({
     marginLeft: 5,
   },
   listContainer: {
-    backgroundColor: "#fff",
     marginTop: 10,
+    flex: 1,
     borderRadius: 6,
     height: 400,
+    margin: 10,
+
   },
   listHeader: {
     borderTopLeftRadius: 6,
