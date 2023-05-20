@@ -2,6 +2,13 @@ import { StyleSheet } from "react-native";
 import shadow from "../produtos";
 
 export const modalStyles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+  },
+  modalForm: {
+    marginTop: 5,
+    marginBottom: 20,
+  },
   modalBody: {
     flex: 0,
     maxHeight: "70%",
