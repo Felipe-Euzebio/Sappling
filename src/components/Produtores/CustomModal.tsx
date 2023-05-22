@@ -15,8 +15,7 @@ import { modalStyles } from "../../../assets/styles/modal";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { FirestoreFunctions as fsf } from "../../api/firebase/firestoreDb";
-import { Produtor } from "../../models/Produtor";
+import { Produtor } from "../../types/Produtor";
 import { TextInputMask } from "react-native-masked-text";
 import { Picker } from "@react-native-picker/picker";
 
@@ -37,8 +36,6 @@ const CustomModal = ({
   const [cep, setCep] = useState<string>("");
   const [bairro, setBairro] = useState<string>("");
   const [cidade, setCidade] = useState<string>("");
-
-  const [operationType, setOperationType] = useState<string>(""); // 'create' or 'update'
 
   useEffect(() => {
     if (selectedData) {

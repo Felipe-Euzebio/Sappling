@@ -10,7 +10,7 @@ import { auth, db } from './config';
 
 import { writeDataToStorage, removeDataFromStorage } from '../../helpers/asyncStorage';
 
-const authErrors = (error: any) => {
+export const authErrors = (error: any) => {
 
     switch (error.code) {
 

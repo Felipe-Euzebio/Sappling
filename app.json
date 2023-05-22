@@ -21,12 +21,21 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/app/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.felipeeuzebio.SapplingApp"
     },
     "web": {
       "favicon": "./assets/images/app/favicon.png"
     },
-    "sdkVersion": "48.0.0"
+    "sdkVersion": "48.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "8eeb9330-625c-4ac1-b44e-9182a454fbec"
+      }
+    },
+    "plugins": [
+      "expo-build-properties"
+    ]
   },
   "name": "sapplingapp"
 }

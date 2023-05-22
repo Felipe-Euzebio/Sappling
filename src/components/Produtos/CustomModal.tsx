@@ -7,7 +7,7 @@ import { modalStyles } from '../../../assets/styles/modal';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { FirestoreFunctions as fsf } from '../../api/firebase/firestoreDb'; 
-import { Produto } from '../../models/Produto';
+import { Produto } from '../../types/Produto';
 
 const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteItem }: any) => {
 
