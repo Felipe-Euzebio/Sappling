@@ -35,7 +35,7 @@ export const authErrors = (error: any) => {
 
 }
 
-const getUsernameFromEmail = (email: string) => {
+const getUsernameFromEmail = async (email: string) => {
     return email.split("@")[0];
 }
 
@@ -65,18 +65,24 @@ export const login = async (email: string, password: string) => {
         const userDocSnapshot = await getDoc(userDocRef);
 
         if (!userDocSnapshot.exists()) {
+
+            const username = getUsernameFromEmail(email);
                 
             await setDoc(doc(db, "usuarios", user!.uid), {
-                usuario: getUsernameFromEmail(email),
+                usuario: username,
                 email: email,
             });
     
-        }
+        } else {
 
-        writeDataToStorage('userStorage', { 
-            usuario: getUsernameFromEmail(email),
-            email: email,
-        });
+            const userData = userDocSnapshot.data();
+
+            writeDataToStorage('userStorage', { 
+                usuario: userData!.usuario,
+                email: email,
+            });
+
+        }   
 
     } catch (error) {
 
