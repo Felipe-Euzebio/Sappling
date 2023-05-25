@@ -95,6 +95,7 @@ const Produtos = () => {
       <QueryInput />
 
       <TouchableOpacity style={styles.createBtn} onPress={() => handleCreate()}>
+        <Text style={styles.createBtnText}>Incluir</Text>
         <Feather name="plus" size={24} color="#FFF" />
       </TouchableOpacity>
 

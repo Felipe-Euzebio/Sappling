@@ -10,7 +10,17 @@ const shadow = {
   shadowOpacity: 0.15,
   shadowRadius: 3.84,
 };
-export const styles_produto = StyleSheet.create({
+export const styles = StyleSheet.create({
+  queryInput: {
+    backgroundColor: "#fff",
+    padding: 10,
+    fontSize: 16,
+    fontWeight: "bold",
+    margin: 10,
+    borderRadius: 6,
+    ...shadow,
+  },
+
   container: {
     flex: 1,
     margin: 0,
@@ -38,7 +48,6 @@ export const styles_produto = StyleSheet.create({
     borderRadius: 6,
     height: 400,
     margin: 10,
-
   },
   listHeader: {
     borderTopLeftRadius: 6,
