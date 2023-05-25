@@ -1,13 +1,15 @@
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
-import { styles_produto } from "../../../assets/styles/produtos";
+import { styles } from "../../../assets/styles/produtos";
 import { Feather } from "@expo/vector-icons";
-import { CustomModal } from "./CustomModal";
+import { ProdutosForm } from "./modal/ProdutosForm";
 
 import { FirestoreFunctions as fsf } from "../../api/firebase/firestoreDb";
 import ProdutosList from "../Lists/ProdutosList";
 
 import { StyleSheet } from "react-native";
+import { Query } from "@firebase/firestore";
+import QueryInput from "../Helpers/QueryInput";
 
 const Produtos = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -81,8 +83,8 @@ const Produtos = () => {
   ///////////////////////////////////////////////////////////////////////////////////////
 
   return (
-    <View style={styles_produto.container}>
-      <CustomModal
+    <View style={styles.container}>
+      <ProdutosForm
         isVisible={isModalVisible}
         toggleModal={toggleModal}
         selectedData={selectedData}
@@ -90,8 +92,9 @@ const Produtos = () => {
         deleteItem={handleDeleteItem}
       />
 
-      <TouchableOpacity style={styles_produto.createBtn} onPress={() => handleCreate()}>
-        <Text style={styles_produto.createBtnText}>Incluir</Text>
+      <QueryInput />
+
+      <TouchableOpacity style={styles.createBtn} onPress={() => handleCreate()}>
         <Feather name="plus" size={24} color="#FFF" />
       </TouchableOpacity>
 
@@ -100,13 +103,13 @@ const Produtos = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <ProdutosList data={item} editItem={handleEdit} />}
         ListHeaderComponent={
-          <View style={styles_produto.listHeader}>
-            <Text style={styles_produto.listHeaderText}>Produtos</Text>
+          <View style={styles.listHeader}>
+            <Text style={styles.listHeaderText}>Produtos</Text>
           </View>
         }
         showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[0]}
-        style={styles_produto.listContainer}
+        style={styles.listContainer}
       />
     </View>
   );

@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
-import {
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { Button, Text, TextInput, TouchableOpacity, TouchableHighlight, View, ScrollView } from "react-native";
 import Modal from "react-native-modal";
-import { modalStyles } from "../../../assets/styles/modal";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Produto } from "../../models/Produto";
-// import { FirestoreFunctions as fsf } from "../../api/firebase/firestoreDb";
+import { styles } from "../../../../assets/styles/home";
+import { modalStyles } from "../../../../assets/styles/modal";
 
-const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteItem }: any) => {
+import { MaterialIcons } from "@expo/vector-icons";
+
+import { FirestoreFunctions as fsf } from "../../../api/firebase/firestoreDb";
+import { Produto } from "../../../types/Produto";
+
+const ProdutosForm = ({ isVisible, toggleModal, selectedData, saveItem, deleteItem }: any) => {
   const [id, setId] = useState<string>("");
   const [descricao, setDescricao] = useState<string>("");
   const [observacao, setObservacao] = useState<string>("");
-  // const [operationType, setOperationType] = useState<string>(""); // 'create' or 'update'
+  const [operationType, setOperationType] = useState<string>(""); // 'create' or 'update'
 
   useEffect(() => {
     if (selectedData) {
-
       setId(selectedData.id);
       setDescricao(selectedData.descricao);
       setObservacao(selectedData.observacao);
@@ -86,4 +82,4 @@ const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteIte
   );
 };
 
-export { CustomModal };
+export { ProdutosForm };

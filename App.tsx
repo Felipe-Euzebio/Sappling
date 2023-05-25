@@ -5,17 +5,25 @@ import SapplingApp from "./src/components/SapplingApp";
 import Login from "./src/components/Login";
 import Toast from "react-native-toast-message";
 
+import { authErrors } from "./src/api/firebase/auth";
+
+import "expo-dev-client";
+
 const App = () => {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      setUser(user);
-    });
+    try {
+      const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+        setUser(user);
+      });
 
-    return () => {
-      unsubscribe();
-    };
+      return () => {
+        unsubscribe();
+      };
+    } catch (error) {
+      authErrors(error);
+    }
   }, []);
 
   if (user) {
