@@ -2,12 +2,14 @@ import { View, Text, FlatList, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { styles } from '../../../assets/styles/produtos';
 import { Feather } from '@expo/vector-icons';
-import { CustomModal } from './CustomModal';
+import { ProdutosForm } from './modal/ProdutosForm';
 
 import { FirestoreFunctions as fsf } from '../../api/firebase/firestoreDb';
 import ProdutosList from '../Lists/ProdutosList';
 
 import { StyleSheet } from 'react-native';
+import { Query } from '@firebase/firestore';
+import QueryInput from '../Helpers/QueryInput';
 
 const Produtos = () => {
 
@@ -103,13 +105,15 @@ const Produtos = () => {
   return (
     <View style={styles.container}>
 
-      <CustomModal
+      <ProdutosForm
         isVisible={isModalVisible}
         toggleModal={toggleModal}
         selectedData={selectedData}
         saveItem={handleSaveItem}
         deleteItem={handleDeleteItem}
       />
+
+      <QueryInput />
 
       <TouchableOpacity style={styles.createBtn} onPress={() => handleCreate()}>
         <Feather name="plus" size={24} color="#FFF" />

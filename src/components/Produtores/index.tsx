@@ -2,8 +2,7 @@ import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import { styles } from "../../../assets/styles/produtores";
 import { Feather } from "@expo/vector-icons";
-import { CustomModal } from "./CustomModal";
-import { FormModal } from "./FormModal";
+import { ProdutoresForm } from "./modal/ProdutoresForm";
 
 import { FirestoreFunctions as fsf } from "../../api/firebase/firestoreDb";
 import ProdutoresList from "../Lists/ProdutoresList";
@@ -91,7 +90,7 @@ const Produtos = () => {
   return (
     <View style={styles.container}>
 
-      <FormModal
+      <ProdutoresForm
         isVisible={isModalVisible}
         toggleModal={toggleModal}
         selectedData={selectedData}

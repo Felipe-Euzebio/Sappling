@@ -7,7 +7,7 @@ import {
     ScrollView,
 } from "react-native";
 import Modal from "react-native-modal";
-import { modalStyles } from "../../../assets/styles/modal";
+import { modalStyles } from "../../../../assets/styles/modal";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -16,9 +16,9 @@ import { Picker } from "@react-native-picker/picker";
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { ProdutorFormValues } from "../../models/Produtor";
+import { ProdutorFormValues } from "../../../models/Produtor";
 
-const FormModal = ({
+const ProdutosProdutorForm = ({
     isVisible,
     toggleModal,
     selectedData,
@@ -125,71 +125,6 @@ const FormModal = ({
                                 style={modalStyles.input}
                             />
 
-                            <Text style={modalStyles.inputLabel}>Endereço:</Text>
-                            <TextInput
-                                value={values.endereco}
-                                onChangeText={handleChange('endereco')}
-                                onBlur={handleBlur('endereco')}
-                                underlineColorAndroid={"transparent"}
-                                style={modalStyles.input}
-                            />
-
-                            <Text style={modalStyles.inputLabel}>Logradouro:</Text>
-                            <TextInput
-                                value={values.descLogradouro}
-                                onChangeText={handleChange('descLogradouro')}
-                                onBlur={handleBlur('descLogradouro')}
-                                underlineColorAndroid={"transparent"}
-                                style={modalStyles.input}
-                            />
-
-                            <Text style={modalStyles.inputLabel}>Tipo de Logradouro:</Text>
-                            <Picker
-                                selectedValue={values.tipoLogradouro}
-                                onValueChange={handleChange('tipoLogradouro')}
-                                onBlur={handleBlur('tipoLogradouro')}
-                            >
-                                <Picker.Item label="Rua" value={'rua'} />
-                                <Picker.Item label="Avenida" value={'avenida'} />
-                                <Picker.Item label="Córrego" value={'corrego'} />
-                                <Picker.Item label="Rodovia" value={'rodovia'} />
-                                <Picker.Item label="Sítio" value={'sitio'} />
-                                <Picker.Item label="Fazenda" value={'fazenda'} />
-                                <Picker.Item label="Vale" value={'valet'} />
-                            </Picker>
-
-                            <Text style={modalStyles.inputLabel}>CEP:</Text>
-                            <TextInputMask
-                                type={'zip-code'}
-                                value={values.cep}
-                                onChangeText={handleChange('cep')}
-                                onBlur={handleBlur('cep')}
-                                options={{
-                                    maskType: 'BRL',
-                                    mask: '99999-999',
-                                }}
-                                underlineColorAndroid={"transparent"}
-                                style={modalStyles.input}
-                            />
-
-                            <Text style={modalStyles.inputLabel}>Bairro:</Text>
-                            <TextInput
-                                value={values.bairro}
-                                onChangeText={handleChange('bairro')}
-                                onBlur={handleBlur('bairro')}
-                                underlineColorAndroid={"transparent"}
-                                style={modalStyles.input}
-                            />
-
-                            <Text style={modalStyles.inputLabel}>Cidade:</Text>
-                            <TextInput
-                                value={values.cidade}
-                                onChangeText={handleChange('cidade')}
-                                onBlur={handleBlur('cidade')}
-                                underlineColorAndroid={"transparent"}
-                                style={modalStyles.input}
-                            />
-
                             <TouchableHighlight
                                 onPress={() => handleSubmit()}
                                 style={[modalStyles.submitBtn, {
@@ -219,6 +154,6 @@ const FormModal = ({
     );
 };
 
-export { FormModal };
+export { ProdutosProdutorForm };
 
 

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Text, TextInput, TouchableOpacity, TouchableHighlight, View } from 'react-native';
 import Modal from 'react-native-modal';
-import { styles } from '../../../assets/styles/home';
-import { modalStyles } from '../../../assets/styles/modal';
+import { styles } from '../../../../assets/styles/home';
+import { modalStyles } from '../../../../assets/styles/modal';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { FirestoreFunctions as fsf } from '../../api/firebase/firestoreDb'; 
-import { Produto } from '../../types/Produto';
+import { FirestoreFunctions as fsf } from '../../../api/firebase/firestoreDb'; 
+import { Produto } from '../../../types/Produto';
 
-const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteItem }: any) => {
+const ProdutosForm = ({ isVisible, toggleModal, selectedData, saveItem, deleteItem }: any) => {
 
   const [id, setId] = useState<string>('');
   const [descricao, setDescricao] = useState<string>('');
@@ -111,4 +111,4 @@ const CustomModal = ({ isVisible, toggleModal, selectedData, saveItem, deleteIte
 
 };
 
-export { CustomModal };
+export { ProdutosForm };
