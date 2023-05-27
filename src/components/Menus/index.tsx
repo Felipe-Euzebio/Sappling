@@ -34,7 +34,7 @@ const Menus = () => {
             </View>
             <View style={styles.btnArea}>
 
-                <TouchableOpacity style={styles.button} onPress={() => navigateTo('Produtos')}>
+                <TouchableOpacity style={styles.button} onPress={() => navigateTo('ProdutosProdutor')}>
                     <Image
                         source={require('../../../assets/images/menus/produtos.png')}
                         style={styles.icon}

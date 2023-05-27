@@ -16,7 +16,8 @@ import { Picker } from "@react-native-picker/picker";
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { ProdutorFormValues } from "../../../models/Produtor";
+import { ProdutosProdutorFormValues } from "../../../models/ProdutosProdutor";
+import QueryInput from "../../Helpers/QueryInput";
 
 const ProdutosProdutorForm = ({
     isVisible,
@@ -27,27 +28,21 @@ const ProdutosProdutorForm = ({
 }: any) => {
 
     const validationSchema = Yup.object({
-        nome: Yup.string().required('Nome é obrigatório'),
-        celular: Yup.string().required('Celular é obrigatório'),
-        endereco: Yup.string().required('Endereço é obrigatório'),
-        tipoLogradouro: Yup.string().required('Tipo de logradouro é obrigatório'),
-        descLogradouro: Yup.string().required('Descrição do logradouro é obrigatório'),
-        cep: Yup.string().required('CEP é obrigatório'),
-        bairro: Yup.string().required('Bairro é obrigatório'),
-        cidade: Yup.string().required('Cidade é obrigatório')
+        idProduto: Yup.string().required('Selecione um Produto'),
+        idProdutor: Yup.string().required('Selecione um Produtor'),
     });
 
-    const [produtor, setProdutor] = useState<ProdutorFormValues>(new ProdutorFormValues());
+    const [produtor, setProdutor] = useState<ProdutosProdutorFormValues>(new ProdutosProdutorFormValues());
 
     useEffect(() => {
 
         if (selectedData) {
-            setProdutor(new ProdutorFormValues(selectedData));
+            setProdutor(new ProdutosProdutorFormValues(selectedData));
         }
 
     }, [selectedData]);
 
-    const handleFormSubmit = (values: ProdutorFormValues) => {
+    const handleFormSubmit = (values: ProdutosProdutorFormValues) => {
         saveItem(values);
     };
 
@@ -86,43 +81,25 @@ const ProdutosProdutorForm = ({
 
                             <TextInput value={values.id!} style={modalStyles.inputHidden} />
 
-                            <Text style={modalStyles.inputLabel}>Nome:</Text>
-                            <TextInput
-                                value={values.nome}
-                                onChangeText={handleChange('nome')}
-                                onBlur={handleBlur('nome')}
-                                underlineColorAndroid={"transparent"}
-                                style={modalStyles.input}
+                            <QueryInput
+                                isValid={true}
+                                label="Produto"
+                                style={{ marginBottom: 10 }}
+                                stateValue={values.idProduto}
+                                setStateValue={handleChange('idProduto')}
+                                queryModel="produtos"
                             />
 
-                            <Text style={modalStyles.inputLabel}>Celular:</Text>
-                            <TextInputMask
-                                type={'cel-phone'}
-                                value={values.celular}
-                                onChangeText={handleChange('celular')}
-                                onBlur={handleBlur('celular')}
-                                options={{
-                                    maskType: 'BRL',
-                                    withDDD: true,
-                                    dddMask: '(99) '
-                                }}
-                                underlineColorAndroid={"transparent"}
-                                style={modalStyles.input}
-                            />
-
-                            <Text style={modalStyles.inputLabel}>Telefone:</Text>
-                            <TextInputMask
-                                type={'cel-phone'}
-                                value={values.telefone}
-                                onChangeText={handleChange('telefone')}
-                                onBlur={handleBlur('telefone')}
-                                options={{
-                                    maskType: 'BRL',
-                                    withDDD: true,
-                                    dddMask: '(99) '
-                                }}
-                                underlineColorAndroid={"transparent"}
-                                style={modalStyles.input}
+                            <QueryInput
+                                isValid={true}
+                                label="Produtor"
+                                style={{ marginBottom: 10 }}
+                                stateValue={values.idProdutor}
+                                setStateValue={handleChange('idProdutor')}
+                                queryModel="produtores"
+                                queryConditions={[
+                                    { field: 'id', operator: '==', value: values.idProdutor }
+                                ]}
                             />
 
                             <TouchableHighlight

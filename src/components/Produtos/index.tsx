@@ -113,11 +113,9 @@ const Produtos = () => {
         deleteItem={handleDeleteItem}
       />
 
-      <QueryInput />
-
-      <TouchableOpacity style={styles.createBtn} onPress={() => handleCreate()}>
+      <TouchableOpacity style={styles.primaryBtn} onPress={() => handleCreate()}>
         <Feather name="plus" size={24} color="#FFF" />
-        <Text style={styles.createBtnText}>Incluir</Text>
+        <Text style={styles.primaryBtnText}>Incluir</Text>
       </TouchableOpacity>
 
       <FlatList

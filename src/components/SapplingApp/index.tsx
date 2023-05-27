@@ -8,6 +8,7 @@ import Produtores from '../Produtores';
 
 import { readDataFromStorage } from '../../helpers/asyncStorage';
 import {useEffect, useState } from 'react';
+import ProdutosProdutor from '../ProdutosProdutor';
 
 const Stack = createStackNavigator();
 
@@ -46,10 +47,24 @@ const SapplingApp = () => {
             >
               {() => <Home userData={userData}/>}
             </Stack.Screen>
+          </Stack.Group>
+          <Stack.Group>
             <Stack.Screen 
                 name="Produtos" 
                 component={Produtos}
+                options={{
+                  presentation: 'card',
+                }}
             />
+            <Stack.Screen 
+              name="ProdutosProdutor" 
+              component={ProdutosProdutor}
+              options={{
+                title: 'Meus Produtos',
+              }}
+            />
+          </Stack.Group>
+          <Stack.Group>
             <Stack.Screen 
                 name="Produtores" 
                 component={Produtores}
@@ -57,6 +72,8 @@ const SapplingApp = () => {
                   title: 'Produtores Rurais',
                 }}
             />
+          </Stack.Group>
+          <Stack.Group>
             <Stack.Screen 
                 name="ProducaoAnual" 
                 component={ProducaoAnual}

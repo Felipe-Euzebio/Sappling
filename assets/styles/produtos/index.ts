@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
     container: {
         margin: 10,
     },
-    createBtn: {
+    primaryBtn: {
         backgroundColor: '#3EA6F2',
         padding: 10,
         borderRadius: 6,
@@ -12,7 +12,21 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 10,
     },
-    createBtnText: {
+    primaryBtnText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginLeft: 5,
+    },
+    warningBtn: {
+        backgroundColor: '#FFA500',
+        padding: 10,
+        borderRadius: 6,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    warningBtnText: {
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',

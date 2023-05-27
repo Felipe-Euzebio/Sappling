@@ -6,27 +6,30 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { inputStyles } from '../../../assets/styles/input';
 import { Picker } from '@react-native-picker/picker';
 
-const QueryInput = ({initialValues, validator, stateValue, isValidProp}: any) => {
+import { Condition, FirestoreFunctions as fsf, formatUndefinedArrProps } from '../../api/firebase/firestoreDb';
+
+const QueryInput = ({isValid, label, style, stateValue, setStateValue, queryModel, queryConditions}: any) => {
 
   const pickerRef = useRef<any>(null);
 
-  const [state, setState] = useState<any>(stateValue);
   const [selectedPickerValue, setSelectedPickerValue] = useState<any>(null);
-
-  const updateState = (value: any) => {
-    setState(value);
-  };
 
   const openPicker = () => {
     pickerRef.current && pickerRef.current?.focus();
   };
 
-  const handleInputSubmit = (values: any) => {
-    openPicker();
+  const handleInputSubmit = async () => {
+
+    const conditions: Condition[] = formatUndefinedArrProps(queryConditions);
+
+    const data = await fsf.readDataByConditions(queryModel, conditions);
+
+    console.log(data);
+
   }
 
   return (
-    <View>
+    <View style={style}>
       <View style={inputStyles.hiddenPicker}>
         <Picker 
           selectedValue={stateValue}
@@ -40,16 +43,17 @@ const QueryInput = ({initialValues, validator, stateValue, isValidProp}: any) =>
       </View>
       <View style={inputStyles.inlineInputArea}>
         <TextInput
-          onChangeText={(value) => updateState(value)}
-          value={state}
-          placeholder="Pesquisar"
+          onChangeText={(value) => setStateValue(value)}
+          value={stateValue}
+          placeholder={`Pesquisar ${label}`}
           underlineColorAndroid={'transparent'}
           style={inputStyles.inlineInput}
         />
         <TouchableHighlight
             onPress={handleInputSubmit}
+            disabled={!isValid}
             style={[inputStyles.inlineInputBtn, {
-                opacity: isValidProp ? 1 : 0.5
+                opacity: isValid ? 1 : 0.5
             }]}
         >
             <FontAwesome5 name="search" size={24} color="white" />
