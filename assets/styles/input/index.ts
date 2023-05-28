@@ -25,5 +25,8 @@ export const inputStyles = StyleSheet.create({
         width: 0,
         height: 0,
     },
+    pickerHeader: {
+        backgroundColor: '#228B22',
+    }
 });
 

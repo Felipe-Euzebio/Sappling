@@ -7,6 +7,7 @@ import { ProdutosProdutorForm } from './modal/ProdutosProdutorForm';
 import { FirestoreFunctions as fsf } from '../../api/firebase/firestoreDb';
 import ProdutosList from '../Lists/ProdutosList';
 import { useNavigation } from '@react-navigation/native';
+import ProdutosProdutorList from '../Lists/ProdutosProdutorList';
 
 const ProdutosProdutor = () => {
 
@@ -82,24 +83,33 @@ const ProdutosProdutor = () => {
 
             setProdutosProdutor([]);
 
-            querySnapshot.forEach((doc: any) => {
+            querySnapshot.forEach(async (doc: any) => {
+
+                let produtoDesc = await fsf.readData('produtos', doc.idProduto).then((data: any) => {
+                    return data.descricao
+                });
+
+                let produtorDesc = await fsf.readData('produtores', doc.idProdutor).then((data: any) => {
+                    return data.nome
+                });
 
                 let data = {
                     id: doc.id,
-                    descricao: doc.descricao,
-                    observacao: doc.observacao
+                    idProduto: doc.idProduto,
+                    idProdutor: doc.idProdutor,
+                    produtoDesc: produtoDesc,
+                    produtorDesc: produtorDesc
                 }
 
                 setProdutosProdutor((oldArr) => [...oldArr, data]);
 
             });
 
-        })
-            .catch((error: any) => {
+        }).catch((error: any) => {
 
-                console.log('Error getting documents: ', error);
+            console.log('Error getting documents: ', error);
 
-            });
+        });
 
     }
 
@@ -134,7 +144,7 @@ const ProdutosProdutor = () => {
                 data={produtosProdutor}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
-                    <ProdutosList data={item} editItem={handleEdit} />
+                    <ProdutosProdutorList data={item} editItem={handleEdit} />
                 )}
                 ListHeaderComponent={
                     <View style={styles.listHeader}>

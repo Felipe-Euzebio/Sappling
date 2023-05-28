@@ -77,4 +77,20 @@ export const modalStyles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
+    searchInlineBtn: {
+        backgroundColor: '#3EA6F2',
+        padding: 10,
+        borderTopRightRadius: 5,
+        borderBottomRightRadius: 5,
+    },
+    searchInlineInput: {
+        backgroundColor: '#FFF',
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5,
+        height: 45,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#141414',
+        flex: 1,
+    },
 });

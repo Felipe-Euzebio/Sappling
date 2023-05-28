@@ -1,7 +1,10 @@
+import { Produto } from "./Produto";
+import { Produtor } from "./Produtor";
+
 export interface ProdutosProdutor {
     id?: string | null | undefined;
-    idProduto: string;
-    idProdutor: string;
+    produto: Produto[];
+    produtor: Produtor[];
 }
 
 export class ProdutosProdutor implements ProdutosProdutor {

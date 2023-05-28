@@ -4,13 +4,13 @@ import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 
 import { styles } from '../../../assets/styles/produtos';
 
-export default function ProdutosList({ data, editItem }: any) {
+export default function ProdutosProdutorList({ data, editItem }: any) {
     return (
         console.log(data),
         <View style={styles.listItemContainer}>
             <TouchableHighlight style={styles.listItemBtn} onPress={() => editItem(data)}>
                 <Text style={styles.listItemBtnText}>
-                    {data.descricao}
+                    {data.produtoDesc}
                 </Text>
             </TouchableHighlight>
         </View>

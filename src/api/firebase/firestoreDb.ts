@@ -20,7 +20,7 @@ type Data = {
   [key: string]: any 
 };
 
-type QueryOperator = "<" | "<=" | "==" | ">=" | ">" | "!=";
+type QueryOperator = "<" | "<=" | "==" | ">=" | ">" | "!=" | "array-contains" | "in" | "array-contains-any" | "not-in";
 
 interface AnyObject {
   [key: string]: any;
@@ -103,7 +103,7 @@ export function filterUndefinedProps<T extends AnyObject>(obj: T): Partial<T> {
   ) as Partial<T>;
 }
 
-export function formatUndefinedArrProps<T extends Record<string, any>>(arr: T[]): T[] {
+export async function formatUndefinedArrProps<T extends Record<string, any>>(arr: T[]): Promise<T[]> {
   return arr.map(obj => {
     for (let prop in obj) {
       if (obj.hasOwnProperty(prop) && obj[prop] === undefined) {
@@ -220,14 +220,14 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
   readDataByConditions: async (
     collectionName: string, 
-    conditions: Condition[] = [], 
+    conditions: Condition[], 
     callback? :(data: any[] | null) => void
   ): Promise<any[] | null> => {
 
     try {
 
       let queryRef = collection(db, collectionName);
-  
+
       // Apply each condition to the query
       conditions.forEach(({ field, operator, value }) => {
 
@@ -239,9 +239,10 @@ export const FirestoreFunctions: FirestoreFunctions = {
   
       const querySnapshot = await getDocs(queryRef);
   
-      const data = querySnapshot.docs.map((doc) => {
-        return { id: doc.id, ...doc.data() };
-      });
+      const data = querySnapshot.docs.map((doc) => ({ 
+        id: doc.id, 
+        ...doc.data() 
+      }));
   
       if (callback) callback(data);
   
