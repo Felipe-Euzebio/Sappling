@@ -79,21 +79,23 @@ const ProdutosProdutorForm = ({
 
     }
 
-    const searchForProduto = () => {
+    const searchForProduto = async () => {
 
         setProdutos([]);
 
         if (searchProduto) {
 
-            fsf.readDataByCondition('produtos', 'descricao', '==', searchProduto).then((response: any) => {
+            await fsf.readDataByCondition('produtos', 'descricao', '==', searchProduto).then((response: any) => {
                 setProdutos(response);
+                console.log(response);
                 openPicker(produtosRef);
             });
 
         } else {
 
-            fsf.readAllData('produtos').then((response: any) => {
+            await fsf.readAllData('produtos').then((response: any) => {
                 setProdutos(response);
+                console.log(response);
                 openPicker(produtosRef);
             });
 
@@ -101,21 +103,23 @@ const ProdutosProdutorForm = ({
 
     };
 
-    const searchForProdutor = () => {
+    const searchForProdutor = async () => {
 
         setProdutores([]);
 
         if (searchProdutor) {
 
-            fsf.readDataByCondition('produtores', 'nome', '==', searchProdutor).then((response: any) => {
+            await fsf.readDataByCondition('produtores', 'nome', '==', searchProdutor).then((response: any) => {
                 setProdutores(response);
+                console.log(response);
                 openPicker(produtoresRef);
             });
 
         } else {
 
-            fsf.readAllData('produtores').then((response: any) => {
+            await fsf.readAllData('produtores').then((response: any) => {
                 setProdutores(response);
+                console.log(response);
                 openPicker(produtoresRef);
             });
 
@@ -125,9 +129,14 @@ const ProdutosProdutorForm = ({
 
     const handleProdutoItemValue = (setFieldValue: any, fieldName: string, itemValue: string, ) => {
 
+        console.log('produto', itemValue);
+
+        setSearchProduto('');
+
         setFieldValue(fieldName, itemValue);
 
         const produtoObj = getObjectByProperty(produtos, 'id', itemValue);
+        console.log(produtoObj);
 
         if (produtoObj) {
 
@@ -138,6 +147,8 @@ const ProdutosProdutorForm = ({
     };
 
     const handleProdutorItemValue = (setFieldValue: any, fieldName: string, itemValue: string, ) => {
+
+        console.log('produtor', itemValue);
 
         setFieldValue(fieldName, itemValue);
 
@@ -180,14 +191,14 @@ const ProdutosProdutorForm = ({
                                 <View style={inputStyles.hiddenPicker}>
                                     <Picker
                                         selectedValue={values.idProduto}
-                                        onValueChange={(itemValue) => handleProdutoItemValue(setFieldValue, 'idProduto', itemValue)}
-                                        onBlur={handleBlur('idProduto')}
+                                        onValueChange={(itemValue, itemIndex) => { 
+                                            if (itemIndex >= 0) {
+                                                handleProdutoItemValue(setFieldValue, 'idProduto', itemValue) 
+                                            }
+                                        }}
                                         ref={produtosRef}
                                         itemStyle={{color: '#000'}}
                                     >
-                                        {produtos.length === 0 && (
-                                            <Picker.Item label="Nenhum registro encontrado." value="" enabled={false}/>
-                                        )}
                                         {produtos.map((item: any) => (
                                             <Picker.Item key={item.id} label={item.descricao} value={item.id} />
                                         ))}
@@ -214,14 +225,14 @@ const ProdutosProdutorForm = ({
                                 <View style={inputStyles.hiddenPicker}>
                                     <Picker
                                         selectedValue={values.idProdutor}
-                                        onValueChange={(itemValue) => handleProdutorItemValue(setFieldValue, 'idProdutor', itemValue)}
-                                        onBlur={handleBlur('idProdutor')}
+                                        onValueChange={(itemValue, itemIndex) => {
+                                            if(itemIndex >= 0) {
+                                                handleProdutorItemValue(setFieldValue, 'idProdutor', itemValue)
+                                            }
+                                        }}
                                         ref={produtoresRef}
                                         itemStyle={{color: '#000'}}
                                     >
-                                        {produtores.length === 0 && (
-                                            <Picker.Item label="Nenhum registro encontrado." value="" enabled={false}/>
-                                        )}
                                         {produtores.map((item: any) => (
                                             <Picker.Item key={item.id} label={item.nome} value={item.id} />
                                         ))}

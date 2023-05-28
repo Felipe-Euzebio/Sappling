@@ -14,6 +14,8 @@ const ProdutosProdutor = () => {
     const navigation = useNavigation<any>();
 
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalMounted, setIsModalMounted] = useState(false);
+
     const [produtosProdutor, setProdutosProdutor] = useState<any[]>([]);
     const [selectedData, setSelectedData] = useState<any[]>([]);
 
@@ -23,6 +25,7 @@ const ProdutosProdutor = () => {
 
     const toggleModal = (value: boolean) => {
         setIsModalVisible(value);
+        setIsModalMounted(value);
     };
 
     const navigateTo = (route: string) => {
@@ -118,13 +121,15 @@ const ProdutosProdutor = () => {
     return (
         <View style={styles.container}>
 
-            <ProdutosProdutorForm
-                isVisible={isModalVisible}
-                toggleModal={toggleModal}
-                selectedData={selectedData}
-                saveItem={handleSaveItem}
-                deleteItem={handleDeleteItem}
-            />
+            {isModalMounted && (
+                <ProdutosProdutorForm
+                    isVisible={isModalVisible}
+                    toggleModal={toggleModal}
+                    selectedData={selectedData}
+                    saveItem={handleSaveItem}
+                    deleteItem={handleDeleteItem}
+                />
+            )}
 
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
 
