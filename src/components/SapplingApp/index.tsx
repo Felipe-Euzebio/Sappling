@@ -33,6 +33,7 @@ const SapplingApp = () => {
         <Stack.Navigator 
           initialRouteName='Home'
           screenOptions={{
+            cardStyle: { backgroundColor: '#FFF' },
             headerTintColor: '#FFF',
             headerStyle: { backgroundColor: '#228B22' },
             presentation: 'modal',

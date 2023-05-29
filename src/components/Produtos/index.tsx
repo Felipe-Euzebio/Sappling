@@ -92,10 +92,12 @@ const Produtos = () => {
         deleteItem={handleDeleteItem}
       />
 
-      <TouchableOpacity style={styles.primaryBtn} onPress={() => handleCreate()}>
-        <Feather name="plus" size={24} color="#FFF" />
-        <Text style={styles.primaryBtnText}>Incluir</Text>
-      </TouchableOpacity>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <TouchableOpacity style={styles.primaryBtn} onPress={() => handleCreate()}>
+            <Feather name="plus" size={24} color="#FFF" />
+            <Text style={styles.primaryBtnText}>Incluir</Text>
+          </TouchableOpacity>
+      </View>
 
       <FlatList
         data={produtos}

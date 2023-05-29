@@ -1,11 +1,11 @@
 import { StyleSheet } from "react-native";
 
 const shadow = {
-  elevation: 2,
+  elevation: 5,
   shadowColor: "#000",
   shadowOffset: {
     width: 0,
-    height: 2,
+    height: 1,
   },
   shadowOpacity: 0.15,
   shadowRadius: 3.84,
@@ -16,17 +16,16 @@ export const styles = StyleSheet.create({
         margin: 0,
     },
     primaryBtn: {
-        /* backgroundColor: '#3EA6F2',
-        padding: 10,
-        borderRadius: 6,
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginVertical: 10, */
-        borderRadius: 8,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginVertical: 10,
-        ...shadow,
+      backgroundColor: "#3EA6F2",
+      padding: 15,
+      borderRadius: 8,
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      margin: 10,
+      marginBottom: 0,
+      flex: 1,
+      ...shadow,
     },
     primaryBtnText: {
         color: '#fff',
@@ -36,11 +35,14 @@ export const styles = StyleSheet.create({
     },
     warningBtn: {
         backgroundColor: '#FFA500',
-        padding: 10,
-        borderRadius: 6,
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginVertical: 10,
+        padding: 15,
+        borderRadius: 8,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        margin: 10,
+        marginBottom: 0,
+        ...shadow,
     },
     warningBtnText: {
         color: '#fff',
@@ -49,24 +51,22 @@ export const styles = StyleSheet.create({
         marginLeft: 5,
     },
     listContainer: {
-        backgroundColor: '#A9A9A9',
         marginTop: 10,
+        flex: 1,
         borderRadius: 6,
         height: 400,
-        flex: 1,
         margin: 10,
     },
     listHeader: {
-        backgroundColor: '#36454F',
         padding: 10,
         borderTopLeftRadius: 6,
         borderTopRightRadius: 6,
     },
     listHeaderText: {
-        color: '#fff',
-        fontSize: 16,
+        backgroundColor: "#fff",
         padding: 10,
-        fontWeight: 'bold',
+        fontSize: 24,
+        fontWeight: "bold",
     },
     listItemContainer: {
         backgroundColor: '#fff',
@@ -80,24 +80,23 @@ export const styles = StyleSheet.create({
     },
     listItemBtn: {
         padding: 10,
-        backgroundColor: '#228B22',
+        /* backgroundColor: '#228B22', */
         borderRadius: 6,
         flexGrow: 1,
         paddingHorizontal: 20,
     },
     listItemBtnText: {
-        color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
     },
     sideTashBtn: {
-      width: 60,
-      height: 60,
-      justifyContent: "center",
-      alignItems: "center",
-      padding: 12,
-      borderLeftWidth: 1,
-      borderLeftColor: "#ccc",
+        width: 60,
+        height: 60,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 12,
+        borderLeftWidth: 1,
+        borderLeftColor: "#ccc",
     },
 });
 /* 

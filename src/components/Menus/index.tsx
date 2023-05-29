@@ -21,53 +21,53 @@ const Menus = () => {
         </TouchableOpacity>
         <Text style={styles.btnText}>Produtores{"\n"}Rurais</Text>
       </View>
-      <View style={styles.btnArea}>
+{/*       <View style={styles.btnArea}>
         <TouchableOpacity style={styles.button} onPress={() => navigateTo("Produtos")}>
           <Image source={require("../../../assets/images/menus/produtos.png")} style={styles.icon} />
         </TouchableOpacity>
 
         <Text style={styles.btnText}>Produtos</Text>
-      </View>
-      <View style={styles.btnArea}>
+      </View> */}
+      {/* <View style={styles.btnArea}>
         <TouchableOpacity style={styles.button} onPress={() => navigateTo("ProducaoAnual")}>
           <Image source={require("../../../assets/images/menus/producao.png")} style={styles.icon} />
         </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={() => navigateTo('Produtores')}>
-                    <Image
-                        source={require('../../../assets/images/menus/produtores.png')}
-                        style={styles.icon}
-                    />
-                </TouchableOpacity>
-                
-                <Text style={styles.btnText}>Produtores{'\n'}Rurais</Text>
-            
-            </View>
-            <View style={styles.btnArea}>
+        <TouchableOpacity style={styles.button} onPress={() => navigateTo('Produtores')}>
+          <Image
+            source={require('../../../assets/images/menus/produtores.png')}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={() => navigateTo('ProdutosProdutor')}>
-                    <Image
-                        source={require('../../../assets/images/menus/produtos.png')}
-                        style={styles.icon}
-                    />
-                </TouchableOpacity>
-                
-                <Text style={styles.btnText}>Produtos</Text>
-            
-            </View>
-            <View style={styles.btnArea}>
+        <Text style={styles.btnText}>Produtores{'\n'}Rurais</Text>
 
-                <TouchableOpacity style={styles.button} onPress={() => navigateTo('ProducaoAnual')}>
-                    <Image
-                        source={require('../../../assets/images/menus/producao.png')}
-                        style={styles.icon}
-                    />
-                </TouchableOpacity>
+      </View> */}
+      <View style={styles.btnArea}>
 
-                <Text style={styles.btnText}>Produção{'\n'}Anual</Text>
+        <TouchableOpacity style={styles.button} onPress={() => navigateTo('ProdutosProdutor')}>
+          <Image
+            source={require('../../../assets/images/menus/produtos.png')}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
 
-            </View>
-            {/* FUTURE FEATURE
+        <Text style={styles.btnText}>Produtos</Text>
+
+      </View>
+      <View style={styles.btnArea}>
+
+        <TouchableOpacity style={styles.button} onPress={() => navigateTo('ProducaoAnual')}>
+          <Image
+            source={require('../../../assets/images/menus/producao.png')}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+
+        <Text style={styles.btnText}>Produção{'\n'}Anual</Text>
+
+      </View>
+      {/* FUTURE FEATURE
 
             <View style={styles.btnArea}>
 
