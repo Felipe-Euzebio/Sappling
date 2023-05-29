@@ -33,9 +33,41 @@ const Menus = () => {
           <Image source={require("../../../assets/images/menus/producao.png")} style={styles.icon} />
         </TouchableOpacity>
 
-        <Text style={styles.btnText}>Produção{"\n"}Anual</Text>
-      </View>
-      {/* FUTURE FEATURE
+                <TouchableOpacity style={styles.button} onPress={() => navigateTo('Produtores')}>
+                    <Image
+                        source={require('../../../assets/images/menus/produtores.png')}
+                        style={styles.icon}
+                    />
+                </TouchableOpacity>
+                
+                <Text style={styles.btnText}>Produtores{'\n'}Rurais</Text>
+            
+            </View>
+            <View style={styles.btnArea}>
+
+                <TouchableOpacity style={styles.button} onPress={() => navigateTo('ProdutosProdutor')}>
+                    <Image
+                        source={require('../../../assets/images/menus/produtos.png')}
+                        style={styles.icon}
+                    />
+                </TouchableOpacity>
+                
+                <Text style={styles.btnText}>Produtos</Text>
+            
+            </View>
+            <View style={styles.btnArea}>
+
+                <TouchableOpacity style={styles.button} onPress={() => navigateTo('ProducaoAnual')}>
+                    <Image
+                        source={require('../../../assets/images/menus/producao.png')}
+                        style={styles.icon}
+                    />
+                </TouchableOpacity>
+
+                <Text style={styles.btnText}>Produção{'\n'}Anual</Text>
+
+            </View>
+            {/* FUTURE FEATURE
 
             <View style={styles.btnArea}>
 

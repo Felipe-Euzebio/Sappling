@@ -8,7 +8,10 @@ import {
   updateDoc, 
   query, 
   where, 
-  getDoc 
+  getDoc, 
+  WhereFilterOp,
+  CollectionReference,
+  DocumentData
 } from "firebase/firestore";
 
 import { db, app } from "./config";
@@ -17,10 +20,16 @@ type Data = {
   [key: string]: any 
 };
 
-type QueryOperator = "<" | "<=" | "==" | ">=" | ">" | "!=";
+type QueryOperator = "<" | "<=" | "==" | ">=" | ">" | "!=" | "array-contains" | "in" | "array-contains-any" | "not-in";
 
 interface AnyObject {
   [key: string]: any;
+}
+
+export interface Condition {
+  field: string;
+  operator: WhereFilterOp;
+  value: any;
 }
 
 interface FirestoreFunctions {
@@ -49,6 +58,12 @@ interface FirestoreFunctions {
     field: string, 
     operator: QueryOperator, 
     value: any, 
+    callback?: (data: Data[] | null) => void
+  ) => Promise<Data[] | null>;
+
+  readDataByConditions: (
+    collectionName: string,
+    conditions: Condition[],
     callback?: (data: Data[] | null) => void
   ) => Promise<Data[] | null>;
   
@@ -82,15 +97,30 @@ interface FirestoreFunctions {
 
 // Firebase does not accept undefined values, 
 // so we need to filter them out before sending data to Firestore
-function filterUndefinedProps<T extends AnyObject>(obj: T): Partial<T> {
+export function filterUndefinedProps<T extends AnyObject>(obj: T): Partial<T> {
   return Object.fromEntries(
     Object.entries(obj).filter(([_, v]) => v !== undefined)
   ) as Partial<T>;
 }
 
+export async function formatUndefinedArrProps<T extends Record<string, any>>(arr: T[]): Promise<T[]> {
+  return arr.map(obj => {
+    for (let prop in obj) {
+      if (obj.hasOwnProperty(prop) && obj[prop] === undefined) {
+        obj[prop as keyof T] = "" as T[Extract<keyof T, string>];
+      }
+    }
+    return obj;
+  });
+}
+
 export const FirestoreFunctions: FirestoreFunctions = {
 
-  createData: async (collectionName, data, callback) => {
+  createData: async (
+    collectionName, 
+    data, 
+    callback
+  ) => {
     
     try {
 
@@ -113,7 +143,13 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
   },
 
-  createOrUpdateData: async (collectionName, id, data, callbackCreate, callbackUpdate) => {
+  createOrUpdateData: async (
+    collectionName, 
+    id, 
+    data, 
+    callbackCreate, 
+    callbackUpdate
+  ) => {
 
     if(!id) {
 
@@ -127,7 +163,10 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
   },
 
-  readAllData: async (collectionName, callback) => {
+  readAllData: async (
+    collectionName, 
+    callback
+  ) => {
 
     try {
 
@@ -148,7 +187,13 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
   },
 
-  readDataByCondition: async (collectionName, field, operator, value, callback) => {
+  readDataByCondition: async (
+    collectionName,
+    field, 
+    operator, 
+    value, 
+    callback
+  ) => {
 
     try {
 
@@ -173,7 +218,51 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
   },
 
-  readData: async (collectionName, id, callback) => {
+  readDataByConditions: async (
+    collectionName: string, 
+    conditions: Condition[], 
+    callback? :(data: any[] | null) => void
+  ): Promise<any[] | null> => {
+
+    try {
+
+      let queryRef = collection(db, collectionName);
+
+      // Apply each condition to the query
+      conditions.forEach(({ field, operator, value }) => {
+
+        if (field && operator && value) {
+          queryRef = query(queryRef, where(field, operator, value)) as CollectionReference<DocumentData>;
+        }
+
+      });
+  
+      const querySnapshot = await getDocs(queryRef);
+  
+      const data = querySnapshot.docs.map((doc) => ({ 
+        id: doc.id, 
+        ...doc.data() 
+      }));
+  
+      if (callback) callback(data);
+  
+      return data;
+
+    } catch (error) {
+
+      console.log("Error getting documents by condition: ", error);
+      if (callback) callback(null);
+      return null;
+
+    }
+
+  },
+
+  readData: async (
+    collectionName, 
+    id, 
+    callback
+  ) => {
 
     try {
 
@@ -203,7 +292,12 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
   },
 
-  updateData: async (collectionName, id, data, callback) => {
+  updateData: async (
+    collectionName, 
+    id, 
+    data, 
+    callback
+  ) => {
 
     try {
 
@@ -227,7 +321,12 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
   },
 
-  updateAndReadData: async (collectionName, id, data, callback) => {
+  updateAndReadData: async (
+    collectionName, 
+    id, 
+    data, 
+    callback
+  ) => {
 
     try {
       
@@ -260,7 +359,11 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
   },
 
-  deleteData: async (collectionName, id, callback) => {
+  deleteData: async (
+    collectionName, 
+    id, 
+    callback
+  ) => {
 
     try {
 
