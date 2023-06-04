@@ -7,10 +7,6 @@ import { ProdutosForm } from './modal/ProdutosForm';
 import { FirestoreFunctions as fsf } from '../../api/firebase/firestoreDb';
 import ProdutosList from '../Lists/ProdutosList';
 
-import { StyleSheet } from 'react-native';
-import { Query } from '@firebase/firestore';
-import QueryInput from '../Helpers/QueryInput';
-
 const Produtos = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
