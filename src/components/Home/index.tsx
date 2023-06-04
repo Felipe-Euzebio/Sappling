@@ -14,6 +14,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import { Auth } from '../../api/firebase/simpleAuth';
 
+import { Feather } from '@expo/vector-icons';
+
 const Home = ({ userData, navigation }: any) => {
 
   return (
@@ -26,10 +28,7 @@ const Home = ({ userData, navigation }: any) => {
         <View style={styles.userArea}>
           <View style={styles.userProfile}>
 
-            <Image 
-              source={require('../../../assets/images/user.png')}
-              style={styles.userImage}
-            />
+            <Feather name="user" size={32} color="#FFF" />
 
             <Text style={styles.userText}>{userData?.usuario}</Text>
             
