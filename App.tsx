@@ -41,23 +41,6 @@ const App = () => {
       </>
     );
   }
-
-  // return (
-  //   <>
-  //     {!user && (
-  //       <>
-  //         <Login />
-  //         <Toast />
-  //       </>
-  //     )}
-  //     {user && (
-  //       <>
-  //         <SapplingApp user={user} />
-  //         <Toast />
-  //       </>
-  //     )}
-  //   </>
-  // );
 };
 
 export default App;
