@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import shadow from "../produtos";
+import shadow from "../../styles/produtos";
 
 export const styles = StyleSheet.create({
   container: {
@@ -38,24 +38,27 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   listItemContainer: {
+    backgroundColor: '#fff',
+    margin: 10,
+    borderRadius: 6,
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#fff",
     ...shadow,
-    margin: 10,
-    borderRadius: 6,
+
   },
   listItemBtn: {
     flexGrow: 1,
     padding: 22,
     paddingHorizontal: 20,
-    backgroundColor: "#228B22",
+    backgroundColor: "#fff",
     borderRadius: 8,
+    ...shadow,
+
   },
   listItemBtnText: {
-    color: "#fff",
+    color: "#000",
     fontSize: 16,
     fontWeight: "bold",
   },

@@ -88,7 +88,7 @@ const ProducaoAnual = () => {
                 });
 
                 let produtorDesc = await fsf.readData('produtores', doc.idProdutor).then((data: any) => {
-                    return data.nome
+                    return data?.nome
                 });
 
                 let data = {

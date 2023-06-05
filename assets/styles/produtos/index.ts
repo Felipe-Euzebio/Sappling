@@ -79,7 +79,7 @@ export const styles = StyleSheet.create({
         ...shadow,
     },
     listItemBtn: {
-        padding: 10,
+        padding: 22,
         /* backgroundColor: '#228B22', */
         borderRadius: 6,
         flexGrow: 1,
@@ -179,5 +179,5 @@ sideTashBtn: {
   borderLeftColor: "#ccc",
 },
 });
-
-export default shadow; */
+*/
+export default shadow;
