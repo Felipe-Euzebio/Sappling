@@ -17,12 +17,12 @@ import { inputStyles } from "../../../../assets/styles/input";
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { ProdutosProdutorFormValues } from "../../../models/ProdutosProdutor";
+import { ProducaoAnualFormValues } from "../../../models/ProducaoAnual";
 
 import { FirestoreFunctions as fsf } from '../../../api/firebase/firestoreDb';
 import { getObjectByProperty } from '../../../helpers/functions';
 
-const ProdutosProdutorForm = ({
+const ProducaoAnualForm = ({
     isVisible,
     toggleModal,
     selectedData,
@@ -39,24 +39,31 @@ const ProdutosProdutorForm = ({
     const [produtos, setProdutos] = useState<any[]>([]);
     const [produtores, setProdutores] = useState<any[]>([]);
 
-    const [produtosProdutor, setProdutosProdutor] = useState<ProdutosProdutorFormValues>(new ProdutosProdutorFormValues());
+    const [producaoAnual, setProducaoAnual] = useState<ProducaoAnualFormValues>(new ProducaoAnualFormValues());
 
     useEffect(() => {
 
         if (selectedData) {
-            setProdutosProdutor(new ProdutosProdutorFormValues(selectedData));
+            setProducaoAnual(new ProducaoAnualFormValues(selectedData));
             setSearchProduto(selectedData.produtoDesc);
             setSearchProdutor(selectedData.produtorDesc);
         }
 
     }, [selectedData]);
 
-    const handleFormSubmit = (values: ProdutosProdutorFormValues) => {
+    const handleFormSubmit = (values: ProducaoAnualFormValues) => {
+
+        values.ano = Number(values.ano);
+
+        values.qtdeProduzida = parseFloat(values.qtdeProduzida.toString().replace(',', '.'));
+        values.qtdePerda = parseFloat(values.qtdePerda.toString().replace(',', '.'));
+
         saveItem(values);
+
     };
 
     const handleDeleteItem = () => {
-        deleteItem(produtosProdutor);
+        deleteItem(producaoAnual);
     };
 
     const closeModal = () => {
@@ -69,15 +76,15 @@ const ProdutosProdutorForm = ({
         }
     };
 
-    const validateFieldValues = (values: ProdutosProdutorFormValues) => {
-
-        let isEmptyString = values.idProduto === '' || values.idProdutor === '';
-        let isNull = values.idProduto === null || values.idProdutor === null;
-        let isUndefined = values.idProduto === undefined || values.idProdutor === undefined;
-
-        return isEmptyString || isNull || isUndefined;
-
-    }
+    const validationSchema = Yup.object({
+        idProdutor: Yup.string().required('O produtor é obrigatório'),
+        idProduto: Yup.string().required('O produto é obrigatório'),
+        descricao: Yup.string().required('A descrição é obrigatória'),
+        ano: Yup.string().required('O ano de produção é obrigatório'),
+        qtdeProduzida: Yup.string().required('A quantidade produzida é obrigatória'),
+        qtdePerda: Yup.string().required('A quantidade vendida é obrigatória'),
+        unidadeMedida: Yup.string().required('A unidade de medida é obrigatória'),
+    });
 
     const searchForProduto = async () => {
 
@@ -126,7 +133,6 @@ const ProdutosProdutorForm = ({
     const handleProdutoItemValue = (setFieldValue: any, fieldName: string, itemValue: string, ) => {
 
         setSearchProduto('');
-
         setFieldValue(fieldName, itemValue);
 
         const produtoObj = getObjectByProperty(produtos, 'id', itemValue);
@@ -141,6 +147,7 @@ const ProdutosProdutorForm = ({
 
     const handleProdutorItemValue = (setFieldValue: any, fieldName: string, itemValue: string, ) => {
 
+        setSearchProdutor('');
         setFieldValue(fieldName, itemValue);
 
         const produtorObj = getObjectByProperty(produtores, 'id', itemValue);
@@ -168,11 +175,13 @@ const ProdutosProdutorForm = ({
 
             <ScrollView style={modalStyles.modalBody} showsVerticalScrollIndicator={false}>
                 <Formik
-                    initialValues={produtosProdutor}
+                    initialValues={producaoAnual}
                     enableReinitialize={true}
+                    validationSchema={validationSchema}
+                    validateOnMount={true}
                     onSubmit={handleFormSubmit}
                 >
-                    {({ handleChange, setFieldValue, handleBlur, handleSubmit, values }) => (
+                    {({ handleChange, setFieldValue, handleBlur, handleSubmit, values, errors, touched }) => (
 
                         <View style={modalStyles.modalForm}>
 
@@ -246,17 +255,66 @@ const ProdutosProdutorForm = ({
                                 </View>
                             </View>
 
+                            <Text style={modalStyles.inputLabel}>Descrição:</Text>
+                            <TextInput
+                                value={values.descricao}
+                                onChangeText={handleChange('descricao')}
+                                onBlur={handleBlur('descricao')}
+                                underlineColorAndroid={"transparent"}
+                                style={modalStyles.input}
+                            />
+
+                            <Text style={modalStyles.inputLabel}>Ano de Produção:</Text>
+                            <TextInput
+                                value={values.ano?.toString()}
+                                onChangeText={(text) => handleChange('ano')(text.replace(/[^0-9]/g, ''))}
+                                onBlur={handleBlur('ano')}
+                                underlineColorAndroid={"transparent"}
+                                style={modalStyles.input}
+                            />
+
+                            <Text style={modalStyles.inputLabel}>Quantidade Produzida:</Text>
+                            <TextInput
+                                value={values.qtdeProduzida !== undefined ? String(values.qtdeProduzida) : ''}
+                                onChangeText={handleChange('qtdeProduzida')}
+                                onBlur={handleBlur('qtdeProduzida')}
+                                underlineColorAndroid={"transparent"}
+                                style={modalStyles.input}
+                            />  
+
+                            <Text style={modalStyles.inputLabel}>Quantidade Perdida:</Text>
+                            <TextInput
+                                value={values.qtdePerda !== undefined ? String(values.qtdePerda) : ''}
+                                onChangeText={handleChange('qtdePerda')}
+                                onBlur={handleBlur('qtdePerda')}
+                                underlineColorAndroid={"transparent"}
+                                style={modalStyles.input}
+                            />
+
+                            <Text style={modalStyles.inputLabel}>Unidade de Medida:</Text>
+                            <Picker
+                                selectedValue={values.unidadeMedida}
+                                onValueChange={handleChange('unidadeMedida')}
+                                onBlur={handleBlur('unidadeMedida')}
+                            >
+                                <Picker.Item label="Selecione uma unidade de medida" value={''} enabled={false} color="#228B22"/>
+                                <Picker.Item label="Unidade" value={'unidade'} color="#000"/>
+                                <Picker.Item label="Quilograma" value={'quilograma'} color="#000"/>
+                                <Picker.Item label="Tonelada" value={'tonelada'} color="#000"/>
+                                <Picker.Item label="Litro" value={'litro'} color="#000"/>
+                            </Picker>
+
                             <TouchableHighlight
                                 onPress={() => handleSubmit()}
                                 style={[modalStyles.submitBtn, {
-                                    opacity: validateFieldValues(values) ? 0.5 : 1
+                                    opacity: false ? 0.5 : 1
                                 }]}
-                                disabled={validateFieldValues(values)}
+                                disabled={false}
                             >
                                 <Text style={modalStyles.submitBtnText}>Salvar</Text>
                             </TouchableHighlight>
 
-                            {produtosProdutor.id && (
+                            {producaoAnual.id && (
                                 <TouchableHighlight
                                     onPress={handleDeleteItem}
                                     style={modalStyles.deleteBtn}
@@ -275,6 +333,6 @@ const ProdutosProdutorForm = ({
     );
 };
 
-export { ProdutosProdutorForm };
+export { ProducaoAnualForm };
 
 
