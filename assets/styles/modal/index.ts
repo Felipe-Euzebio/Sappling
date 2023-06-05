@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import shadow from "../produtos";
 
 export const modalStyles = StyleSheet.create({
     modalContainer: {
