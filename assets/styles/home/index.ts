@@ -7,6 +7,10 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    contentBox: {
+        flex: 1,
+        margin: 10,
+    },
     userArea: {
         backgroundColor: '#228B22',
         flexDirection: 'row',
