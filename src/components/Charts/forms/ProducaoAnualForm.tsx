@@ -5,6 +5,7 @@ import { Picker } from '@react-native-picker/picker'
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { FirestoreFunctions as fsf } from '../../../api/firebase/firestoreDb';
+import { Toasts } from '../../../api/toast-message/toasts';
 
 const ProducaoAnualForm = ({dataReturn}: any) => {
 
@@ -29,16 +30,26 @@ const ProducaoAnualForm = ({dataReturn}: any) => {
 
     if (searchProduto) {
 
-      await fsf.readDataByCondition('produtos', 'descricao', '==', searchProduto).then((response: any) => {
+      await fsf.readDataByCondition('produtos', 'descricao', '==', searchProduto)
+      .then((response: any) => {
         setProdutos(response);
         openPicker(produtosRef);
+      })
+      .catch((error: any) => {
+        Toasts.showError('Erro ao buscar produto');
+        console.log(error);
       });
 
     } else {
 
-      await fsf.readAllData('produtos').then((response: any) => {
+      await fsf.readAllData('produtos')
+      .then((response: any) => {
         setProdutos(response);
         openPicker(produtosRef);
+      })
+      .catch((error: any) => {
+        Toasts.showError('Erro ao buscar produtos');
+        console.log(error);
       });
 
     }
@@ -79,6 +90,10 @@ const ProducaoAnualForm = ({dataReturn}: any) => {
       ])
       .then((response: any) => {
         dataReturn(response);
+      })
+      .catch((error: any) => {
+        Toasts.showError('Erro ao buscar dados de produção anual');
+        console.log(error);
       });
 
     }

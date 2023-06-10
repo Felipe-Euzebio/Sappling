@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 
 import { db, app } from "./config";
+import { Toasts } from "../toast-message/toasts";
 
 type Data = { 
   [key: string]: any 
@@ -131,12 +132,18 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
       if (callback) callback(docId);
 
+      Toasts.showSuccess("Dados salvos com sucesso!");
+
       return docId
 
     } catch (error) {
 
       console.log("Error adding document: ", error);
+
       if (callback) callback(null);
+
+      Toasts.showError("Erro ao salvar os dados!");
+
       return null;
 
     }
@@ -309,12 +316,18 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
       if (callback) callback(true);
 
+      Toasts.showSuccess("Dados salvos com sucesso!");
+
       return true;
 
     } catch (error) {
 
       console.log("Error updating document: ", error);
+
       if (callback) callback(false);
+
+      Toasts.showError("Erro ao salvar os dados!");
+
       return false;
 
     }
@@ -345,6 +358,8 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
       if (callback) callback(updatedData);
 
+      Toasts.showSuccess("Dados salvos com sucesso!");
+
       return updatedData;
 
     } catch (error) {
@@ -352,6 +367,8 @@ export const FirestoreFunctions: FirestoreFunctions = {
       console.log('Error updating document:', error);
 
       if (callback) callback(null);
+
+      Toasts.showError("Erro ao salvar os dados!");
 
       return null;
 
@@ -372,12 +389,18 @@ export const FirestoreFunctions: FirestoreFunctions = {
 
       if (callback) callback(true);
 
+      Toasts.showSuccess("Dados excluídos com sucesso!");
+
       return true;
 
     } catch (error) {
 
       console.log("Error deleting document: ", error);
+
       if (callback) callback(false);
+
+      Toasts.showError("Erro ao excluir os dados!");
+
       return false;
 
     }

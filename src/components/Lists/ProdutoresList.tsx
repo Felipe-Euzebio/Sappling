@@ -14,7 +14,7 @@ export default function ProdutoresList({ data, editItem }: any) {
         style={styles.listItemBtn}
         onPress={() => editItem(data)}
       >
-        <Text style={styles.listItemBtnText}>{data.nome}</Text>
+        <Text style={styles.listItemBtnText}>{data?.nome}</Text>
       </TouchableHighlight>
     </View>
   );
