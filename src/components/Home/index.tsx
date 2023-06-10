@@ -1,15 +1,34 @@
-import { Text, View, SafeAreaView, StatusBar, Image, TouchableWithoutFeedback } from "react-native";
+import { 
+  Text, 
+  View, 
+  SafeAreaView, 
+  StatusBar,
+  Image,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from 'react-native'
 
-import { styles } from "../../../assets/styles/home";
-import Menus from "../Menus";
+import { styles } from '../../../assets/styles/home'
+import { inputStyles } from '../../../assets/styles/input';
+
+import Menus from '../Menus';
 
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { Auth } from "../../api/firebase/simpleAuth";
 
 import { Feather } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
-const Home = ({ userData, navigation }: any) => {
+const Home = ({ userData }: any) => {
+
+  const navigation = useNavigation<any>();
+
+  const navigateTo = (route: string) => {
+    navigation.navigate(route);
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar hidden={false} backgroundColor="#228B22" />
@@ -31,6 +50,17 @@ const Home = ({ userData, navigation }: any) => {
         <View style={styles.menusArea}>
           <Menus />
         </View>
+
+        <View style={styles.contentBox}>
+          <TouchableOpacity 
+            onPress={() => navigateTo('ProducaoAnualChart')}
+            style={inputStyles.secondaryBtn}
+          >
+            <FontAwesome5 name="chart-bar" size={24} color="#fff" />
+            <Text style={inputStyles.secondaryBtnText}>Relatórios de Produção Anual</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
     </SafeAreaView>
   );
