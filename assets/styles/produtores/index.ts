@@ -1,16 +1,20 @@
 import { StyleSheet } from "react-native";
+import shadow from "../../styles/produtos";
 
 export const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    flex: 1
   },
   createBtn: {
+    margin: 10,
     backgroundColor: "#3EA6F2",
-    padding: 10,
-    borderRadius: 6,
+    padding: 15,
+    borderRadius: 8,
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
     marginVertical: 10,
+    ...shadow,
   },
   createBtnText: {
     color: "#fff",
@@ -19,34 +23,42 @@ export const styles = StyleSheet.create({
     marginLeft: 5,
   },
   listContainer: {
-    backgroundColor: "#A9A9A9",
-    marginTop: 10,
+    flex: 1,
     borderRadius: 6,
-    height: 400,
+    margin: 10,
   },
   listHeader: {
-    backgroundColor: "#36454F",
-    padding: 10,
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
   },
   listHeaderText: {
-    color: "#fff",
-    fontSize: 16,
+    backgroundColor: "#fff",
+    padding: 10,
+    fontSize: 24,
     fontWeight: "bold",
   },
   listItemContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     margin: 10,
     borderRadius: 6,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    ...shadow,
+
   },
   listItemBtn: {
-    padding: 10,
-    backgroundColor: "#228B22",
-    borderRadius: 6,
+    flexGrow: 1,
+    padding: 22,
+    paddingHorizontal: 20,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    ...shadow,
+
   },
   listItemBtnText: {
-    color: "#fff",
+    color: "#000",
     fontSize: 16,
     fontWeight: "bold",
   },

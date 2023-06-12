@@ -1,40 +1,42 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from "react-native";
 
 export const modalStyles = StyleSheet.create({
     modalContainer: {
-        flex: 1,
-    },
-    modalBody: {
-        backgroundColor: '#fff',
-        padding: 10,
-        borderBottomStartRadius: 10,
-        borderBottomEndRadius: 10,
+      flex: 1,
     },
     modalForm: {
-        marginTop: 5,
-        marginBottom: 20,
+      marginTop: 5,
+      marginBottom: 20,
+    },
+    modalBody: {
+      flex: 0,
+      maxHeight: "70%",
+      backgroundColor: "#fff",
+      padding: 12,
+      borderBottomStartRadius: 10,
+      borderBottomEndRadius: 10,
     },
     modalHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: '#D3D3D3',
-        padding: 10,
-        borderTopStartRadius: 10,
-        borderTopEndRadius: 10,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      backgroundColor: "#fff",
+      padding: 10,
+      borderTopStartRadius: 10,
+      borderTopEndRadius: 10,
     },
     modalHeaderText: {
-        fontSize: 18,
-        fontWeight: 'bold',
+      fontSize: 24,
+      fontWeight: "bold",
     },
     input: {
-        marginBottom: 10,
-        backgroundColor: '#FFF',
-        borderRadius: 5,
-        height: 45,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#141414',
+      marginBottom: 10,
+      backgroundColor: '#FFF',
+      borderRadius: 5,
+      height: 45,
+      padding: 10,
+      borderWidth: 1,
+      borderColor: '#141414',
     },
     inputHidden: {
         width: 0,

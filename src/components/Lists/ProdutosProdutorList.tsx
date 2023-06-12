@@ -7,7 +7,7 @@ import { styles } from '../../../assets/styles/produtos';
 export default function ProdutosProdutorList({ data, editItem }: any) {
     return (
         <View style={styles.listItemContainer}>
-            <TouchableHighlight style={styles.listItemBtn} onPress={() => editItem(data)}>
+            <TouchableHighlight style={styles.listItemBtn} underlayColor="#DDDDDD"  onPress={() => editItem(data)}>
                 <Text style={styles.listItemBtnText}>
                     {data.produtoDesc}
                 </Text>

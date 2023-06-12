@@ -1,14 +1,13 @@
-import { View, Text, FlatList, TouchableOpacity } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import { styles } from '../../../assets/styles/produtos';
-import { Feather } from '@expo/vector-icons';
-import { ProdutosForm } from './modal/ProdutosForm';
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { styles } from "../../../assets/styles/produtos";
+import { Feather } from "@expo/vector-icons";
+import { ProdutosForm } from "./modal/ProdutosForm";
 
-import { FirestoreFunctions as fsf } from '../../api/firebase/firestoreDb';
-import ProdutosList from '../Lists/ProdutosList';
+import { FirestoreFunctions as fsf } from "../../api/firebase/firestoreDb";
+import ProdutosList from "../Lists/ProdutosList";
 
 const Produtos = () => {
-
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [produtos, setProdutos] = useState<any[]>([]);
   const [selectedData, setSelectedData] = useState<any[]>([]);
@@ -27,80 +26,60 @@ const Produtos = () => {
    * -----------------------------------
    */
   const handleCreate = () => {
-
     setSelectedData([]);
     toggleModal(true);
+  };
 
-  }
-  
   const handleEdit = (data: any) => {
-
     setSelectedData(data);
     toggleModal(true);
+  };
 
-  }
-  
   /**
    * -----------------------------------
    * Handles the Create/Read/Update/Delete operations.
    * -----------------------------------
    */
   const handleSaveItem = (data: any) => {
-
-    fsf.createOrUpdateData('produtos', data.id, data).then(() => {
-        
+    fsf.createOrUpdateData("produtos", data.id, data).then(() => {
       handleListItem(); // Refresh the list. Least performatic way.
       toggleModal(false);
-  
-    })
-
-  }
+    });
+  };
 
   const handleDeleteItem = (data: any) => {
-
-    fsf.deleteData('produtos', data.id).then(() => {
-
+    fsf.deleteData("produtos", data.id).then(() => {
       handleListItem(); // Refresh the list. Least performatic way.
       toggleModal(false);
-
     });
-
-  }
+  };
 
   const handleListItem = () => {
+    const snapshot = fsf.readAllData("produtos");
 
-    const snapshot = fsf.readAllData('produtos');
+    snapshot
+      .then((querySnapshot: any) => {
+        setProdutos([]);
 
-    snapshot.then((querySnapshot: any) => {
+        querySnapshot.forEach((doc: any) => {
+          let data = {
+            id: doc.id,
+            descricao: doc.descricao,
+            observacao: doc.observacao,
+          };
 
-      setProdutos([]);
-
-      querySnapshot.forEach((doc: any) => {
-
-        let data = {
-          id: doc.id,
-          descricao: doc.descricao,
-          observacao: doc.observacao
-        }
-
-        setProdutos((oldArr) => [...oldArr, data]);
-
+          setProdutos((oldArr) => [...oldArr, data]);
+        });
+      })
+      .catch((error: any) => {
+        console.log("Error getting documents: ", error);
       });
-
-    })
-    .catch((error: any) => {
-
-      console.log('Error getting documents: ', error);
-
-    });
-
-  }
+  };
 
   ///////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <View style={styles.container}>
-
       <ProdutosForm
         isVisible={isModalVisible}
         toggleModal={toggleModal}
@@ -109,32 +88,28 @@ const Produtos = () => {
         deleteItem={handleDeleteItem}
       />
 
-      <TouchableOpacity style={styles.primaryBtn} onPress={() => handleCreate()}>
-        <Feather name="plus" size={24} color="#FFF" />
-        <Text style={styles.primaryBtnText}>Incluir</Text>
-      </TouchableOpacity>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <TouchableOpacity style={styles.primaryBtn} onPress={() => handleCreate()}>
+            <Feather name="plus" size={24} color="#FFF" />
+            <Text style={styles.primaryBtnText}>Incluir</Text>
+          </TouchableOpacity>
+      </View>
 
       <FlatList
         data={produtos}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <ProdutosList data={item} editItem={handleEdit} />
-        )}
+        renderItem={({ item }) => <ProdutosList data={item} editItem={handleEdit} />}
         ListHeaderComponent={
           <View style={styles.listHeader}>
-            <Text style={styles.listHeaderText}>
-              Produtos
-            </Text>
+            <Text style={styles.listHeaderText}>Produtos</Text>
           </View>
         }
         showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[0]}
         style={styles.listContainer}
       />
-
     </View>
   );
+};
 
-}
-
-export default Produtos
+export default Produtos;

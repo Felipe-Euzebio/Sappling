@@ -1,10 +1,13 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { Text, View } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
-import Home from '../Home';
-import Produtos from '../Produtos';
-import ProducaoAnual from '../ProducaoAnual';
-import Produtores from '../Produtores';
+import Home from "../Home";
+import Produtos from "../Produtos";
+import ProducaoAnual from "../ProducaoAnual";
+import Produtores from "../Produtores";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { readDataFromStorage } from '../../helpers/asyncStorage';
 import { useEffect, useState } from 'react';
@@ -15,16 +18,13 @@ import BarChartViewer from '../Charts/viewers/BarChartViewer';
 const Stack = createStackNavigator();
 
 const SapplingApp = () => {
-
   const [userData, setUserData] = useState<any>(null);
 
   const getUserStorageData = async () => {
-
-    await readDataFromStorage('userStorage').then((data) => {
+    await readDataFromStorage("userStorage").then((data) => {
       setUserData(data);
     });
-
-  }
+  };
 
   useEffect(() => {
     getUserStorageData();
@@ -35,6 +35,7 @@ const SapplingApp = () => {
       <Stack.Navigator
         initialRouteName='Home'
         screenOptions={{
+          cardStyle: { backgroundColor: '#FFF' },
           headerTintColor: '#FFF',
           headerStyle: { backgroundColor: '#228B22' },
           presentation: 'modal',
@@ -101,6 +102,6 @@ const SapplingApp = () => {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 export default SapplingApp;
