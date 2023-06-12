@@ -8,7 +8,7 @@ export default function ProdutoresList({ data, editItem }: any) {
   return (
     <View style={styles.listItemContainer}>
       <TouchableHighlight style={styles.listItemBtn} underlayColor="#DDDDDD" onPress={() => editItem(data)}>
-        <Text style={styles.listItemBtnText}>{data.nome}</Text>
+        <Text style={styles.listItemBtnText}>{data?.nome}</Text>
       </TouchableHighlight>
     </View>
   );

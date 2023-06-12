@@ -21,6 +21,7 @@ import { ProducaoAnualFormValues } from "../../../models/ProducaoAnual";
 
 import { FirestoreFunctions as fsf } from '../../../api/firebase/firestoreDb';
 import { getObjectByProperty } from '../../../helpers/functions';
+import { Toasts } from "../../../api/toast-message/toasts";
 
 const ProducaoAnualForm = ({
     isVisible,
@@ -92,16 +93,26 @@ const ProducaoAnualForm = ({
 
         if (searchProduto) {
 
-            await fsf.readDataByCondition('produtos', 'descricao', '==', searchProduto).then((response: any) => {
+            await fsf.readDataByCondition('produtos', 'descricao', '==', searchProduto)
+            .then((response: any) => {
                 setProdutos(response);
                 openPicker(produtosRef);
+            })
+            .catch((error: any) => {
+                Toasts.showError('Erro ao buscar os produtos');
+                console.log(error);
             });
 
         } else {
 
-            await fsf.readAllData('produtos').then((response: any) => {
+            await fsf.readAllData('produtos')
+            .then((response: any) => {
                 setProdutos(response);
                 openPicker(produtosRef);
+            })
+            .catch((error: any) => {
+                Toasts.showError('Erro ao buscar os produtos');
+                console.log(error);
             });
 
         }
@@ -114,16 +125,26 @@ const ProducaoAnualForm = ({
 
         if (searchProdutor) {
 
-            await fsf.readDataByCondition('produtores', 'nome', '==', searchProdutor).then((response: any) => {
+            await fsf.readDataByCondition('produtores', 'nome', '==', searchProdutor)
+            .then((response: any) => {
                 setProdutores(response);
                 openPicker(produtoresRef);
+            })
+            .catch((error: any) => {
+                Toasts.showError('Erro ao buscar os produtores');
+                console.log(error);
             });
 
         } else {
 
-            await fsf.readAllData('produtores').then((response: any) => {
+            await fsf.readAllData('produtores')
+            .then((response: any) => {
                 setProdutores(response);
                 openPicker(produtoresRef);
+            })
+            .catch((error: any) => {
+                Toasts.showError('Erro ao buscar os produtores');
+                console.log(error);
             });
 
         }
